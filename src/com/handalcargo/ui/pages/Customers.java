@@ -3,9 +3,9 @@ package com.handalcargo.ui.pages;
 import javax.swing.JPanel;
 import com.handalcargo.ui.Updateable;
 
-public class SeaFreight extends JPanel implements Updateable {
+public class Customers extends JPanel implements Updateable {
 
-	public SeaFreight() {
+	public Customers() {
 		
 	}
 	

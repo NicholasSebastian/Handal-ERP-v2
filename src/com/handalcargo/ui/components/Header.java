@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-import com.handalcargo.data.Palette;
+import com.handalcargo.ui.Styles;
 import com.handalcargo.data.Session;
 import com.handalcargo.ui.Application;
 
@@ -22,7 +22,7 @@ public class Header extends JPanel {
 	
 	public Header() {
 		setPreferredSize(new Dimension(0, height));
-		setBackground(Palette.headerColor);
+		setBackground(Styles.headerColor);
 		setLayout(new BorderLayout());
 		
 		// Handal Cargo logo.
@@ -53,7 +53,7 @@ public class Header extends JPanel {
 			
 			// Background color.
 			setUI((ButtonUI) BasicButtonUI.createUI(this));
-			setBackground(Palette.profileHoverColor);
+			setBackground(Styles.profileHoverColor);
 			
 			// Styling.
 			setCursor(new Cursor(Cursor.HAND_CURSOR));

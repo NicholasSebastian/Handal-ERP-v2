@@ -35,6 +35,9 @@ public class Login extends JFrame {
 			}
 		});
 		
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("/icon.png"));
+		setIconImage(icon.getImage());
+		
 		Exception connectionError = Database.initialize();
 		if (connectionError == null) {
 			Encryption.initialize();

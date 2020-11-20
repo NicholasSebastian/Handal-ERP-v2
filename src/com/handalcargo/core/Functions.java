@@ -2,6 +2,7 @@ package com.handalcargo.core;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -58,5 +59,48 @@ public class Functions {
 		catch(SQLException ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	public static ArrayList<String[]> getStaff() {
+		ArrayList<String[]> data = new ArrayList<>();
+		try {
+			ResultSet results = Database.query("SELECT * FROM staff");
+			
+			while (results.next()) {
+				data.add(new String[] {		// Add to this
+					results.getString(""),
+					results.getString(""),
+					results.getString("")
+				});
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+	
+	public static ArrayList<String[]> getAccounts() {
+		ArrayList<String[]> data = new ArrayList<>();
+		try {
+			ResultSet results = Database.query("SELECT `staffId`, `username`, `password` FROM accounts");
+			
+			while (results.next()) {
+				String staffId = results.getString("staffid");
+				ResultSet details = Database.query("SELECT `name`, `group` FROM staff WHERE staffId=" + staffId);
+				details.next();
+				
+				data.add(new String[] {
+					results.getString("username"), 
+					results.getString("password"), 
+					details.getString("name"),
+					details.getString("group")
+				});
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
 	}
 }

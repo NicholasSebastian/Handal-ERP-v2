@@ -1,9 +1,14 @@
-package com.handalcargo.data;
+package com.handalcargo.ui;
 
 import java.awt.Color;
+import java.awt.Font;
 
-public class Palette {
-
+public class Styles {
+	
+	public static final Font 
+		headerFont = new Font("Arial", Font.BOLD, 20),
+		buttonFont = new Font("Arial", Font.BOLD, 16);
+	
 	public static final Color
 		blue = new Color(0, 104, 192),
 		blueHover = new Color(0, 94, 168),
@@ -28,4 +33,8 @@ public class Palette {
 		tableSelectColor = new Color(15, 133, 254),
 		
 		scrollBarColor = new Color(200, 200, 200);
+	
+	public static final int
+		buttonSize = 30,
+		buttonIconSize = 15;
 }

@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-import com.handalcargo.data.Palette;
+import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.Application;
 
 import static com.handalcargo.core.Functions.promptExit;
@@ -32,18 +32,18 @@ public class Sidebar extends JPanel {
 	private ArrayList<CategoryButton> buttons;
 	
 	public Sidebar() {
-		setBackground(Palette.sideBarColor);
+		setBackground(Styles.sideBarColor);
 		setPreferredSize(new Dimension(width, 0));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// Subcategory names
 		// note: these names must match their corresponding page class names for navigation to work.
 		String
-			shipping[] = {"Sea Freight", "Air Cargo", "Factor Entries", "Payment"},
+			shipping[] = {"Sea Freight", "Air Cargo", "Invoice Entry", "Payment"},
 			master[] = {"Customers", "Staff", "Accounts"},
-			references[] = {"Indomie Seleraku"},
+			references[] = {"???"},
 			reports[] = {"Dashboard", "Payroll"},
-			settings[] = {"Staff Groups", "Company Setup", "System Access", "System User", "Backup And Restore"};
+			settings[] = {"Staff Groups", "Company Setup", "Backup And Restore"};
 		
 		LinkedHashMap<String, String[]> map = new LinkedHashMap<>();
 		
@@ -106,7 +106,7 @@ public class Sidebar extends JPanel {
 	
 			// Button color.
 			headerButton.setUI((ButtonUI) BasicButtonUI.createUI(this));
-			headerButton.setBackground(Palette.sideBarButtonHoverColor);
+			headerButton.setBackground(Styles.sideBarButtonHoverColor);
 			
 			headerButton.setHorizontalAlignment(SwingConstants.LEFT);
 			headerButton.setMargin(buttonPadding);
@@ -146,7 +146,7 @@ public class Sidebar extends JPanel {
 					
 					// SubButton color.
 					subButton.setUI((ButtonUI) BasicButtonUI.createUI(CategoryButton.this));
-					subButton.setBackground(Palette.sideBarSubButtonColor);
+					subButton.setBackground(Styles.sideBarSubButtonColor);
 					
 					subButton.setHorizontalAlignment(SwingConstants.LEFT);
 					subButton.setMargin(subButtonPadding);
@@ -158,11 +158,11 @@ public class Sidebar extends JPanel {
 					// SubButton hover effects.
 					subButton.addMouseListener(new MouseAdapter() {
 						public void mouseEntered(MouseEvent e) {
-							subButton.setBackground(Palette.sideBarSubButtonHoverColor);
+							subButton.setBackground(Styles.sideBarSubButtonHoverColor);
 						}
 						
 						public void mouseExited(MouseEvent e) {
-							subButton.setBackground(Palette.sideBarSubButtonColor);
+							subButton.setBackground(Styles.sideBarSubButtonColor);
 						}
 					});
 					

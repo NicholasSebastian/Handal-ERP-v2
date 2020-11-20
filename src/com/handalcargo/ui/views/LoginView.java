@@ -5,7 +5,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import javax.swing.*;
 
-import com.handalcargo.data.Palette;
+import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.Login;
 import com.handalcargo.ui.components.Button;
 
@@ -34,7 +34,7 @@ public class LoginView extends JPanel {
 		// Top panel.
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
-		topPanel.setBackground(Palette.sideBarColor);
+		topPanel.setBackground(Styles.sideBarColor);
 		topPanel.setPreferredSize(new Dimension(0, 50));
 		add(topPanel, BorderLayout.NORTH);
 		
@@ -57,7 +57,7 @@ public class LoginView extends JPanel {
 		JLabel usernameLabel = new JLabel(new ImageIcon(scaledUsernameImage));
 		JTextField usernameField = new JTextField();
 		usernameLabel.setOpaque(true);
-		usernameLabel.setBackground(Palette.gray);
+		usernameLabel.setBackground(Styles.gray);
 		usernameLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		usernameField.setColumns(25);
 		usernameField.setFont(formFont);
@@ -65,12 +65,12 @@ public class LoginView extends JPanel {
 		usernameField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				usernameLabel.setBackground(Palette.blue);
+				usernameLabel.setBackground(Styles.blue);
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				usernameLabel.setBackground(Palette.gray);
+				usernameLabel.setBackground(Styles.gray);
 			}
 		});
 		contentPanel.add(usernameLabel);
@@ -84,7 +84,7 @@ public class LoginView extends JPanel {
 		JLabel passwordLabel = new JLabel(new ImageIcon(scaledPasswordImage));
 		JPasswordField passwordField = new JPasswordField();
 		passwordLabel.setOpaque(true);
-		passwordLabel.setBackground(Palette.gray);
+		passwordLabel.setBackground(Styles.gray);
 		passwordLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		passwordField.setColumns(25);
 		passwordField.setFont(formFont);
@@ -92,11 +92,11 @@ public class LoginView extends JPanel {
 		passwordField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				passwordLabel.setBackground(Palette.blue);
+				passwordLabel.setBackground(Styles.blue);
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				passwordLabel.setBackground(Palette.gray);
+				passwordLabel.setBackground(Styles.gray);
 			}
 		});
 		contentPanel.add(passwordLabel);
@@ -106,7 +106,7 @@ public class LoginView extends JPanel {
 
 		// Login Button and functionality.
 		JButton loginButton = new Button(
-			"Login", Palette.blue, Palette.blueHover, new Dimension(100, 40), true, buttonFont, 
+			"Login", Styles.blue, Styles.blueHover, new Dimension(100, 40), true, buttonFont, 
 			e -> onLogin(usernameField.getText(), String.valueOf(passwordField.getPassword())));
 		contentPanel.add(loginButton);
 	}

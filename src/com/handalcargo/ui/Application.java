@@ -28,6 +28,14 @@ public class Application extends JFrame {
 	
 	public static void displayPage(String pageName) {
 		instance.content.layout.show(instance.content, pageName);
+		
+		// Not the most efficient implementation...
+		for (Component comp : instance.content.getComponents()) {
+			if (comp.isVisible()) {
+				if (comp instanceof Updateable) 
+					((Updateable) comp).refresh();
+			}
+		}
 	}
 	
 	private Application() {
@@ -45,6 +53,9 @@ public class Application extends JFrame {
 				promptExit();
 			}
 		});
+		
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("/icon.png"));
+		setIconImage(icon.getImage());
 		
 		JPanel header = new Header();
 		JPanel sidebar = new Sidebar();
@@ -74,7 +85,17 @@ public class Application extends JFrame {
 			JPanel pages[] = {
 				new Dashboard(),
 				new UserProfile(),
-				new Staff()
+				new AirCargo(),
+				new SeaFreight(),
+				new InvoiceEntry(),
+				new Payment(),
+				new Customers(),
+				new Staff(),
+				new Accounts(),
+				new Payroll(),
+				new StaffGroups(),
+				new CompanySetup(),
+				new BackupAndRestore()
 			};
 			
 			// Load them all into the card layout.
