@@ -5,10 +5,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
 
+import com.handalcargo.core.Database;
+import com.handalcargo.ui.base.Updateable;
 import com.handalcargo.ui.components.Header;
 import com.handalcargo.ui.components.Sidebar;
 import com.handalcargo.ui.pages.*;
-import static com.handalcargo.core.Functions.promptExit;
 
 public class Application extends JFrame {
 	
@@ -35,6 +36,20 @@ public class Application extends JFrame {
 				if (comp instanceof Updateable) 
 					((Updateable) comp).refresh();
 			}
+		}
+	}
+	
+	public static void promptExit() {
+		int exit = JOptionPane.showConfirmDialog(
+			Application.getInstance(), 
+			"Log Out and Exit?", 
+			"Close Application", 
+			JOptionPane.YES_NO_OPTION
+		);
+		if (exit == JOptionPane.YES_OPTION) {
+			Application.getInstance().dispose();
+			Database.closeConnection();
+			System.exit(0);
 		}
 	}
 	
@@ -92,6 +107,14 @@ public class Application extends JFrame {
 				new Customers(),
 				new Staff(),
 				new Accounts(),
+				new ContainerGroups(),
+				new Shippers(),
+				new Routes(),
+				new Handlers(),
+				new Planes(),
+				new Currencies(),
+				new ProductDetails(),
+				new Expeditions(),
 				new Payroll(),
 				new StaffGroups(),
 				new CompanySetup(),

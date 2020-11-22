@@ -1,15 +1,19 @@
 package com.handalcargo.ui.views;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import javax.swing.*;
 
+import com.handalcargo.core.Database;
+import com.handalcargo.core.Encryption;
+import com.handalcargo.data.Session;
+import com.handalcargo.ui.Application;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.Login;
 import com.handalcargo.ui.components.Button;
-
-import static com.handalcargo.core.Functions.onLogin;
 
 public class LoginView extends JPanel {
 	
@@ -109,5 +113,40 @@ public class LoginView extends JPanel {
 			"Login", Styles.blue, Styles.blueHover, new Dimension(100, 40), true, buttonFont, 
 			e -> onLogin(usernameField.getText(), String.valueOf(passwordField.getPassword())));
 		contentPanel.add(loginButton);
+	}
+	
+	private static void onLogin(String username, String password) {
+		String encryptedPassword = Encryption.encrypt(password);
+		
+		// Authentication.
+		String query = "SELECT EXISTS ( SELECT * FROM accounts WHERE username = ? AND password = ? )";
+		ResultSet results = Database.query(query, statement -> {
+			try {
+				statement.setString(1, username);
+				statement.setString(2, encryptedPassword);
+			}
+			catch(SQLException ex) {
+				ex.printStackTrace();
+			}
+		});
+		try {
+			results.next();
+			if (results.getInt(1) == 1) {
+				Session.getInstance();
+				Session.initialize(username);
+				Application.getInstance();
+				Login.getInstance().dispose();
+			}
+			else {
+				JOptionPane.showMessageDialog(
+					Login.getInstance(), 
+					"Invalid Credentials.", 
+					"Alert", 
+					JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		catch(SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
 }

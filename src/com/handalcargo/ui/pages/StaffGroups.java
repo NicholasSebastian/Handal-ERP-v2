@@ -1,7 +1,8 @@
 package com.handalcargo.ui.pages;
 
 import javax.swing.JPanel;
-import com.handalcargo.ui.Updateable;
+
+import com.handalcargo.ui.base.Updateable;
 
 public class StaffGroups extends JPanel implements Updateable {
 

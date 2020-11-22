@@ -1,73 +1,41 @@
 package com.handalcargo.ui.pages;
 
-import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.DefaultTableModel;
 
-import com.handalcargo.ui.Updateable;
-import com.handalcargo.ui.Styles;
+import com.handalcargo.core.Database;
+import com.handalcargo.ui.base.Layout;
 
-public class Staff extends JPanel implements Updateable {
-
+public class Staff extends Layout {
+	
 	public Staff() {
-		setBorder(new EmptyBorder(20, 20, 20, 20));
-		setLayout(new BorderLayout());
-		
-		// Title panel
-		JPanel titlePanel = new JPanel();
-		titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		add(titlePanel, BorderLayout.NORTH);
-		
-		JLabel titleLabel = new JLabel("Staff");
-		titleLabel.setFont(Styles.headerFont);
-		titlePanel.add(titleLabel);
-		
-		// Content panel
-		JPanel contentPanel = new JPanel();
-		CardLayout content = new CardLayout();
-		contentPanel.setLayout(content);
-		contentPanel.setBorder(
-			new CompoundBorder(
-				BorderFactory.createMatteBorder(2, 0, 0, 0, Styles.headerColor), 
-				BorderFactory.createEmptyBorder(10, 10, 10, 10))
-			);
-		contentPanel.setBackground(Color.WHITE);
-		add(contentPanel, BorderLayout.CENTER);
-		
-		contentPanel.add(new Overview(), "Overview");
-		contentPanel.add(new AddView(), "Add");
-		contentPanel.add(new ModifyView(), "Modify");
+		super("Staff");
 	}
 	
-	public void refresh() {
-		System.out.println(this.getClass().getSimpleName());
+	@Override
+	protected TableModel createTableModel() {
+		
+		return new DefaultTableModel();
 	}
 	
-	class Overview extends JPanel {
+	@Override
+	protected JPanel createForm() {
 		
-		private Overview() {
-			setOpaque(false);
-			setLayout(new BorderLayout());
-			
-			
-		}
+		return new JPanel();
 	}
 	
-	class AddView extends JPanel {
+	@Override
+	protected JPanel setForm(Object selected) {
 		
-		private AddView() {
-			setOpaque(false);
-			
-		}
+		return new JPanel();
 	}
 	
-	class ModifyView extends JPanel {
+	@Override
+	protected void onDelete(Object selected) {
 		
-		private ModifyView() {
-			setOpaque(false);
-			
-		}
 	}
 }

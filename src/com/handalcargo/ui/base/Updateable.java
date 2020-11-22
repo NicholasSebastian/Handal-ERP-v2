@@ -1,4 +1,4 @@
-package com.handalcargo.ui;
+package com.handalcargo.ui.base;
 
 public interface Updateable {
 

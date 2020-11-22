@@ -10,8 +10,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.Application;
-
-import static com.handalcargo.core.Functions.promptExit;
+import static com.handalcargo.ui.Application.promptExit;
 
 public class Sidebar extends JPanel {
 	
@@ -41,7 +40,7 @@ public class Sidebar extends JPanel {
 		String
 			shipping[] = {"Sea Freight", "Air Cargo", "Invoice Entry", "Payment"},
 			master[] = {"Customers", "Staff", "Accounts"},
-			references[] = {"???"},
+			references[] = {"Container Groups", "Shippers", "Routes", "Handlers", "Planes", "Currencies", "Product Details", "Expeditions"},
 			reports[] = {"Dashboard", "Payroll"},
 			settings[] = {"Staff Groups", "Company Setup", "Backup And Restore"};
 		

@@ -36,5 +36,6 @@ public class Styles {
 	
 	public static final int
 		buttonSize = 30,
-		buttonIconSize = 15;
+		buttonIconSize = 15,
+		tableRowHeight = 30;
 }
