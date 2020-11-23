@@ -19,10 +19,8 @@ public class Session {
 	public String city;
 	
 	public String phone;
-	public String mobile;
 	
 	public boolean sex;		// false = male, true = female.
-	public String religion;
 	public String birthplace;
 	public Date birthday;
 	
@@ -42,54 +40,40 @@ public class Session {
 		return instance;
 	}
 	
-	public static void initialize(String username) {
-		String idQuery = String.format("SELECT staffid FROM accounts WHERE username='%s'", username);
-		ResultSet reference = Database.query(idQuery);
-		String staffId = "";
-		try {
-			reference.next();
-			staffId = reference.getString(1);
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
+	public static void initialize(String staffId) {
 		String query = String.format("SELECT * FROM staff WHERE staffid='%s'", staffId);
-		ResultSet account = Database.query(query);
+		ResultSet info = Database.query(query);
 		
-		instance.username = username;
-		instance.initialize(account);
+		instance.username = staffId;
+		instance.initialize(info);
 	}
 
 	private Session() {}
 	
-	private void initialize(ResultSet account) {
+	private void initialize(ResultSet info) {
 		try {
-			account.next();
-			this.name = account.getString("name");
+			info.next();
+			this.name = info.getString("staffname");
 			
-			this.group = account.getInt("group");
+			this.group = info.getInt("level");
 			
-			this.address = account.getString("address");
-			this.kelurahan = account.getString("kelurahan");
-			this.city = account.getString("city");
+			this.address = info.getString("address1");
+			this.kelurahan = info.getString("district");
+			this.city = info.getString("city");
 			
-			this.phone = account.getString("phone");
-			this.mobile = account.getString("mobile");
+			this.phone = info.getString("phonenum");
 			
-			this.sex = account.getBoolean("sex");
-			this.religion = account.getString("religion");
-			this.birthplace = account.getString("birthplace");
-			this.birthday = account.getDate("birthday");
+			this.sex = info.getBoolean("gender");
+			this.birthplace = info.getString("placeofbirth");
+			this.birthday = info.getDate("dateofbirth");
 			
-			this.lembur = account.getDouble("lembur");
-			this.salary = account.getDouble("salary");
-			this.allowance = account.getDouble("allowance");
-			this.thr = account.getDouble("thr");
-			this.bonus = account.getDouble("bonus");
+			this.lembur = info.getDouble("ot/hr");
+			this.salary = info.getDouble("salary");
+			this.allowance = info.getDouble("foodallowance");
+			this.bonus = info.getDouble("bonus");
 			
-			this.active = account.getBoolean("active");
-			this.employmentDate = account.getDate("employmentDate");
+			this.active = info.getBoolean("status");
+			this.employmentDate = info.getDate("dateofemployment");
 		}
 		catch(SQLException e) {
 			e.printStackTrace();

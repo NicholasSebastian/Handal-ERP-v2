@@ -8,16 +8,15 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
 import com.handalcargo.ui.Styles;
-import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.IconButton;
 import com.handalcargo.ui.components.Table;
 import com.handalcargo.ui.components.ScrollPanel;
 
 public abstract class Layout extends JPanel implements Updateable {
 
-	protected abstract TableModel createTableModel();
+	protected abstract TableModel setTableModel();
 	protected abstract JPanel createForm();
-	protected abstract JPanel setForm(Object selected);
+	protected abstract void setForm(Object selected);
 	protected abstract void onDelete(Object selected);
 	
 	protected JPanel contentPanel;
@@ -54,14 +53,16 @@ public abstract class Layout extends JPanel implements Updateable {
 		contentPanel.setBackground(Color.WHITE);
 		add(contentPanel, BorderLayout.CENTER);
 		
+		// Form pages
 		contentPanel.add(new Overview(), "Overview");
-		contentPanel.add(createForm(), "Add");
-		contentPanel.add(createForm(), "Modify");
+		contentPanel.add(new ScrollPane(createForm()), "Add");
+		contentPanel.add(new ScrollPane(createForm()), "Modify");
 	}
 	
 	@Override 
 	public void refresh() {
-		table.setModel(createTableModel());
+		displayPage("Overview");
+		table.setModel(setTableModel());
 	}
 	
 	class Overview extends JPanel {
@@ -85,7 +86,7 @@ public abstract class Layout extends JPanel implements Updateable {
 			
 			topPanel.add(Box.createHorizontalStrut(5));
 			
-			JButton searchButton = new IconButton("/search.png", e -> onSearch(searchField.getText()));
+			JButton searchButton = new IconButton("/search.png", Styles.blue, Styles.blueHover, e -> onSearch(searchField.getText()));
 			topPanel.add(searchButton);
 			
 			// Right panel.
@@ -95,22 +96,17 @@ public abstract class Layout extends JPanel implements Updateable {
 			rightPanel.setOpaque(false);
 			add(rightPanel, BorderLayout.EAST);
 			
-			Dimension buttonSize = new Dimension(Styles.buttonSize, Styles.buttonSize);
-			
-			JButton addButton = new Button("Add", Styles.green, Styles.greenHover, 
-				buttonSize, true, Styles.buttonFont, e -> displayPage("Add"));
+			JButton addButton = new IconButton("/add.png", Styles.green, Styles.greenHover, e -> displayPage("Add"));
 			rightPanel.add(addButton);
 			
 			rightPanel.add(Box.createVerticalStrut(10));
 			
-			JButton modifyButton = new Button("Modify", Styles.yellow, Styles.yellowHover, 
-				buttonSize, true, Styles.buttonFont, e -> onModifyButton());
+			JButton modifyButton = new IconButton("/modify.png", Styles.yellow, Styles.yellowHover, e -> onModifyButton());
 			rightPanel.add(modifyButton);
 			
 			rightPanel.add(Box.createVerticalStrut(10));
 			
-			JButton deleteButton = new Button("Delete", Styles.red, Styles.redHover, 
-				buttonSize, true, Styles.buttonFont, e -> onDeleteButton());
+			JButton deleteButton = new IconButton("/delete.png", Styles.red, Styles.redHover, e -> onDeleteButton());
 			rightPanel.add(deleteButton);
 			
 			// Content table.
@@ -158,6 +154,7 @@ public abstract class Layout extends JPanel implements Updateable {
 				if (confirm == JOptionPane.YES_OPTION) {
 					onDelete(table.getValueAt(selectedRow, 0));
 					JOptionPane.showMessageDialog(this, "Entry deleted successfully.");
+					refresh();
 				}
 			}
 			else {
@@ -166,6 +163,16 @@ public abstract class Layout extends JPanel implements Updateable {
 					"Delete Record",
 					JOptionPane.ERROR_MESSAGE);
 			}
+		}
+	}
+	
+	class ScrollPane extends JScrollPane {
+		private ScrollPane(JPanel content) {
+			super(content);
+			setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
+			setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			getVerticalScrollBar().setUnitIncrement(16);
 		}
 	}
 }

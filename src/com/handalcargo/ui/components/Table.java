@@ -19,7 +19,7 @@ public class Table extends JTable {
 		setSelectionBackground(Styles.tableSelectColor);
 		setSelectionForeground(Color.WHITE);
 		setShowGrid(false);
-		setIntercellSpacing(new Dimension(0, 0));
+		setIntercellSpacing(new Dimension(2, 0));
 		setFillsViewportHeight(true);
 		
 		// Remove cell highlight border.

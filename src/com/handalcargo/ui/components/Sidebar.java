@@ -39,7 +39,7 @@ public class Sidebar extends JPanel {
 		// note: these names must match their corresponding page class names for navigation to work.
 		String
 			shipping[] = {"Sea Freight", "Air Cargo", "Invoice Entry", "Payment"},
-			master[] = {"Customers", "Staff", "Accounts"},
+			master[] = {"Customers", "Staff"},
 			references[] = {"Container Groups", "Shippers", "Routes", "Handlers", "Planes", "Currencies", "Product Details", "Expeditions"},
 			reports[] = {"Dashboard", "Payroll"},
 			settings[] = {"Staff Groups", "Company Setup", "Backup And Restore"};

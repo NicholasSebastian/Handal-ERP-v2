@@ -6,8 +6,7 @@ import java.awt.Font;
 public class Styles {
 	
 	public static final Font 
-		headerFont = new Font("Arial", Font.BOLD, 20),
-		buttonFont = new Font("Arial", Font.BOLD, 16);
+		headerFont = new Font("Arial", Font.BOLD, 20);
 	
 	public static final Color
 		blue = new Color(0, 104, 192),

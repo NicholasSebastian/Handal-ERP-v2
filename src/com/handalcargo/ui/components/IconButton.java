@@ -11,7 +11,7 @@ import com.handalcargo.ui.Styles;
 
 public class IconButton extends JButton {
 	
-	public IconButton(String iconPath, Consumer<ActionEvent> function) {
+	public IconButton(String iconPath, Color color, Color hoverColor, Consumer<ActionEvent> function) {
 		
 		// Set icon
 		ImageIcon icon = new ImageIcon(this.getClass().getResource(iconPath));
@@ -25,7 +25,7 @@ public class IconButton extends JButton {
 		
 		// Background color
 		setUI((ButtonUI) BasicButtonUI.createUI(this));
-		setBackground(Styles.blue);
+		setBackground(color);
 		
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		setContentAreaFilled(true);
@@ -35,11 +35,11 @@ public class IconButton extends JButton {
 		// Hover effects
 		addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
-				IconButton.this.setBackground(Styles.blueHover);
+				IconButton.this.setBackground(hoverColor);
 			}
 			
 			public void mouseExited(MouseEvent e) {
-				IconButton.this.setBackground(Styles.blue);
+				IconButton.this.setBackground(color);
 			}
 		});
 		

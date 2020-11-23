@@ -10,8 +10,12 @@ public class Database {
 	
 	private static Connection connection;
 	
+	// TODO: adjust session class and userprofile class.
+	// TODO: do the staff class.
+	// TODO: everything else.
+	
 	private static final String 
-	    hostname = "192.168.1.121", 
+	    hostname = "192.168.0.13", 
 	    port = "3306",	// Default value. Can be changed in the my.ini file.
 	    databaseName = "handalcargo",
 	    user = "handalcargo",
@@ -24,7 +28,9 @@ public class Database {
 			
 			// Initialize connection with database.
 			String url = "jdbc:mysql://" + hostname + ":" + port + "/" + databaseName + "?serverTimezone=UTC";
+			System.out.println("connecting to database...");
 	        connection = DriverManager.getConnection(url, user, password);
+			System.out.println("connected...");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
