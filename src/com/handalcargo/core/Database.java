@@ -3,9 +3,6 @@ package com.handalcargo.core;
 import java.sql.*;
 import java.util.function.Consumer;
 
-// REMINDER: SQL has many reserved keywords such as `name`, `desc`, `groups`, etc.
-// use backticks to fix this problem.
-
 public class Database {
 	
 	private static Connection connection;

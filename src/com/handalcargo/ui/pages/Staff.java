@@ -3,7 +3,6 @@ package com.handalcargo.ui.pages;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -156,12 +155,11 @@ public class Staff extends Layout {
 		finishPanel.add(new Button("Save", Styles.green, Styles.greenHover, new Dimension(100, 40), true, e -> {
 			
 			// TODO: fix address text area.
-			// TODO: this
 			// TODO: separate add page submit functionality and modify page submit functionality.
 			
 			Database.update("INSERT INTO staff (`staffid`, `staffname`) VALUES (?, ?)", statement -> {
 				try {
-					statement.setString(1, aliasField.getText());
+					statement.setString(1, aliasField.getText());	// TODO
 					statement.setString(2, nameField.getText());
 				} 
 				catch (SQLException ex) {
@@ -180,7 +178,16 @@ public class Staff extends Layout {
 	
 	@Override
 	protected void setForm(Object selected) {
-		
+		ResultSet results = Database.query(String.format("SELECT * FROM staff WHERE staffid=", selected));
+		try {
+			while (results.next()) {
+				aliasField.setText(results.getString(0));	// TODO
+				nameField.setText(results.getString(1));
+			}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	@Override
