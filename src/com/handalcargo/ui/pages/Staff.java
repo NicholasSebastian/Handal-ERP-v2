@@ -3,6 +3,7 @@ package com.handalcargo.ui.pages;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -13,10 +14,12 @@ import javax.swing.table.TableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.handalcargo.core.Database;
+import com.handalcargo.core.Encryption;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.SliderButton;
+import com.mysql.cj.xdevapi.Statement;
 import com.handalcargo.ui.components.DatePicker;
 
 public class Staff extends Layout {
@@ -75,7 +78,7 @@ public class Staff extends Layout {
 	@Override
 	protected JPanel createForm() {
 		JPanel formPanel = new JPanel();
-		formPanel.setOpaque(false);
+		formPanel.setBackground(Color.WHITE);
 		formPanel.setLayout(new GridBagLayout());
 		
 		GridBagConstraints c = new GridBagConstraints();
@@ -83,111 +86,129 @@ public class Staff extends Layout {
 		c.insets = new Insets(5, 8, 5, 8);
 		
 		// Labels
-		c.gridx = 0;
+		c.gridx = 0;	c.gridy = 0;
 		c.anchor = GridBagConstraints.LINE_END;
-		int i = 0;
 		
-		c.gridy = i++;	formPanel.add(new JLabel("Name"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Alias"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Password"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Level"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Address"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("District"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("City"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Phone Number"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Gender"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Place of Birth"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Date of Birth"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Salary"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Overtime Pay"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Food Allowance"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Bonus"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Staff Group"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Status"), c);
-		c.gridy = i++;	formPanel.add(new JLabel("Date of Employment"), c);
+		c.gridy++;	formPanel.add(new JLabel("Name"), c);
+		c.gridy++;	formPanel.add(new JLabel("Alias"), c);
+		c.gridy++;	formPanel.add(new JLabel("Password"), c);
+		c.gridy++;	formPanel.add(new JLabel("Level"), c);
+		c.gridy++;	formPanel.add(new JLabel("Address"), c);
+		c.gridy++;	formPanel.add(new JLabel("District"), c);
+		c.gridy++;	formPanel.add(new JLabel("City"), c);
+		c.gridy++;	formPanel.add(new JLabel("Phone Number"), c);
+		c.gridy++;	formPanel.add(new JLabel("Gender"), c);
+		c.gridy++;	formPanel.add(new JLabel("Place of Birth"), c);
+		c.gridy++;	formPanel.add(new JLabel("Date of Birth"), c);
+		c.gridy++;	formPanel.add(new JLabel("Salary"), c);
+		c.gridy++;	formPanel.add(new JLabel("Overtime Pay"), c);
+		c.gridy++;	formPanel.add(new JLabel("Food Allowance"), c);
+		c.gridy++;	formPanel.add(new JLabel("Bonus"), c);
+		c.gridy++;	formPanel.add(new JLabel("Staff Group"), c);
+		c.gridy++;	formPanel.add(new JLabel("Status"), c);
+		c.gridy++;	formPanel.add(new JLabel("Date of Employment"), c);
 		
 		// Fields
 		c.gridx = 1;	c.weightx = 1.0;
 		c.anchor = GridBagConstraints.LINE_START;
-		i = 0;
+		c.gridy = 0;
+
+		// TODO: fix address text area.
 		
-		c.gridy = i++;	nameField = new JTextField();	
-						formPanel.add(nameField, c);
-		c.gridy = i++;	aliasField = new JTextField();
-						formPanel.add(aliasField, c);
-		c.gridy = i++;	passwordField = new JPasswordField();
-						formPanel.add(passwordField, c);
-		c.gridy = i++;	levelPicker = new JComboBox<String>();
-						formPanel.add(levelPicker, c);
-		c.gridy = i++;	addressField = new JTextArea();
-						formPanel.add(addressField, c);
-		c.gridy = i++;	districtField = new JTextField();
-						formPanel.add(districtField, c);
-		c.gridy = i++;	cityField = new JTextField();
-						formPanel.add(cityField, c);
-		c.gridy = i++;	phoneField = new JTextField();
-						formPanel.add(phoneField, c);
-		c.gridy = i++;	genderPicker = new JComboBox<String>(new String[] {"Male", "Female"});
-						formPanel.add(genderPicker, c);
-		c.gridy = i++;	birthplaceField = new DatePicker();
-						formPanel.add(birthplaceField, c);
-		c.gridy = i++;	birthdayField = new DatePicker();
-						formPanel.add(birthdayField, c);
-		c.gridy = i++;	salaryField = new JTextField();
-						formPanel.add(salaryField, c);
-		c.gridy = i++;	overtimeField = new JTextField();
-						formPanel.add(overtimeField, c);
-		c.gridy = i++;	allowanceField = new JTextField();
-						formPanel.add(allowanceField, c);
-		c.gridy = i++;	bonusField = new JTextField();
-						formPanel.add(bonusField, c);
-		c.gridy = i++;	groupPicker = new JComboBox<String>();
-						formPanel.add(groupPicker, c);
-		c.gridy = i++;	activeToggle = new SliderButton();
-						formPanel.add(activeToggle, c);
-		c.gridy = i++;	employDateField = new DatePicker();
-						formPanel.add(employDateField, c);
-		
-		// Finish button
-		JPanel finishPanel = new JPanel();
-		finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		finishPanel.setOpaque(false);
-		finishPanel.add(new Button("Save", Styles.green, Styles.greenHover, new Dimension(100, 40), true, e -> {
-			
-			// TODO: fix address text area.
-			// TODO: separate add page submit functionality and modify page submit functionality.
-			
-			Database.update("INSERT INTO staff (`staffid`, `staffname`) VALUES (?, ?)", statement -> {
-				try {
-					statement.setString(1, aliasField.getText());	// TODO
-					statement.setString(2, nameField.getText());
-				} 
-				catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			});
-		}));
-		finishPanel.add(new Button("Cancel", Styles.red, Styles.redHover, new Dimension(100, 40), true, e -> displayPage("Overview")));
-		
-		c.anchor = GridBagConstraints.LINE_END;
-		c.gridy = i++;	
-		formPanel.add(finishPanel, c);
+		c.gridy++;	nameField = new JTextField();	
+					formPanel.add(nameField, c);
+		c.gridy++;	aliasField = new JTextField();
+					formPanel.add(aliasField, c);
+		c.gridy++;	passwordField = new JPasswordField();
+					formPanel.add(passwordField, c);
+		c.gridy++;	levelPicker = new JComboBox<String>();
+					formPanel.add(levelPicker, c);
+		c.gridy++;	addressField = new JTextArea();
+					formPanel.add(addressField, c);
+		c.gridy++;	districtField = new JTextField();
+					formPanel.add(districtField, c);
+		c.gridy++;	cityField = new JTextField();
+					formPanel.add(cityField, c);
+		c.gridy++;	phoneField = new JTextField();
+					formPanel.add(phoneField, c);
+		c.gridy++;	genderPicker = new JComboBox<String>(new String[] {"Male", "Female"});
+					formPanel.add(genderPicker, c);
+		c.gridy++;	birthplaceField = new DatePicker();
+					formPanel.add(birthplaceField, c);
+		c.gridy++;	birthdayField = new DatePicker();
+					formPanel.add(birthdayField, c);
+		c.gridy++;	salaryField = new JTextField();
+					formPanel.add(salaryField, c);
+		c.gridy++;	overtimeField = new JTextField();
+					formPanel.add(overtimeField, c);
+		c.gridy++;	allowanceField = new JTextField();
+					formPanel.add(allowanceField, c);
+		c.gridy++;	bonusField = new JTextField();
+					formPanel.add(bonusField, c);
+		c.gridy++;	groupPicker = new JComboBox<String>();
+					formPanel.add(groupPicker, c);
+		c.gridy++;	activeToggle = new SliderButton();
+					formPanel.add(activeToggle, c);
+		c.gridy++;	employDateField = new DatePicker();
+					formPanel.add(employDateField, c);
 		
 		return formPanel;
 	}
 	
 	@Override
 	protected void setForm(Object selected) {
-		ResultSet results = Database.query(String.format("SELECT * FROM staff WHERE staffid=", selected));
+		ResultSet results = Database.query(String.format("SELECT * FROM staff WHERE `staffid`='%s'", selected));
 		try {
-			while (results.next()) {
-				aliasField.setText(results.getString(0));	// TODO
-				nameField.setText(results.getString(1));
+			while (results.next()) {	// TODO
+				aliasField.setText(results.getString(1));
+				nameField.setText(results.getString(2));
+				// levelPicker; 		// 4
+				addressField.setText(results.getString(6));        
+				districtField.setText(results.getString(7));      
+				cityField.setText(results.getString(8));          
+				phoneField.setText(results.getString(9));         
+				// genderPicker;		// 10
+				// birthplaceField;    	// 11
+				// birthdayField;		// 12
+				salaryField.setText(results.getString(14));        
+				overtimeField.setText(results.getString(13));      
+				allowanceField.setText(results.getString(15));     
+				bonusField.setText(results.getString(16));         
+				// groupPicker; 		// 5
+				activeToggle.setSelected(results.getBoolean(18));
+				// employDateField;		// 19
 			}
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	@Override
+	protected void onAdd() {
+		Database.update("INSERT INTO staff VALUES (?, ?, ?, ?)", statement -> {
+			
+		});
+	}
+	
+	@Override
+	protected void onModify() {
+		Database.update(
+			"UPDATE staff SET "
+			+ "`staffname`='?', "
+			+ "`pwd`='?' "
+			+ "WHERE `staffid`='?'", 
+			statement -> {
+				try {		// TODO
+					statement.setString(1, nameField.getText());
+					statement.setString(2, Encryption.encrypt(new String(passwordField.getPassword())));
+					
+					statement.setString(3, aliasField.getText());
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+			});
 	}
 	
 	@Override

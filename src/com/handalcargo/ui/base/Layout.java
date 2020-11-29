@@ -1,13 +1,17 @@
 package com.handalcargo.ui.base;
 
 import java.awt.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
+import com.handalcargo.core.Database;
 import com.handalcargo.ui.Styles;
+import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.IconButton;
 import com.handalcargo.ui.components.Table;
 import com.handalcargo.ui.components.ScrollPanel;
@@ -17,6 +21,8 @@ public abstract class Layout extends JPanel implements Updateable {
 	protected abstract TableModel setTableModel();
 	protected abstract JPanel createForm();
 	protected abstract void setForm(Object selected);
+	protected abstract void onAdd();
+	protected abstract void onModify();
 	protected abstract void onDelete(Object selected);
 	
 	protected JPanel contentPanel;
@@ -55,8 +61,8 @@ public abstract class Layout extends JPanel implements Updateable {
 		
 		// Form pages
 		contentPanel.add(new Overview(), "Overview");
-		contentPanel.add(new ScrollPane(createForm()), "Add");
-		contentPanel.add(new ScrollPane(createForm()), "Modify");
+		contentPanel.add(new FormPane(createForm(), true), "Add");
+		contentPanel.add(new FormPane(createForm(), false), "Modify");
 	}
 	
 	@Override 
@@ -166,13 +172,37 @@ public abstract class Layout extends JPanel implements Updateable {
 		}
 	}
 	
-	class ScrollPane extends JScrollPane {
-		private ScrollPane(JPanel content) {
+	class FormPane extends JScrollPane {
+		private FormPane(JPanel content, boolean a) {
 			super(content);
 			setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
 			setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			getVerticalScrollBar().setUnitIncrement(16);
+			
+			JPanel finishPanel = new JPanel();
+			finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			finishPanel.setOpaque(false);
+			
+			finishPanel.add(
+				new Button(
+					"Save", 
+					Styles.green, Styles.greenHover, 
+					new Dimension(100, 40), true, e -> {
+						if (a) onAdd(); 
+						else onModify();
+			}));
+			
+			finishPanel.add(
+				new Button(
+					"Cancel", 
+					Styles.red, Styles.redHover, 
+					new Dimension(100, 40), true, e -> displayPage("Overview")
+			));
+			
+			GridBagConstraints c = ((GridBagLayout) content.getLayout()).getConstraints(content.getComponent(content.getComponentCount() - 1));
+			c.gridy++;	
+			content.add(finishPanel, c);
 		}
 	}
 }

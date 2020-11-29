@@ -23,6 +23,10 @@ public class SliderButton extends JPanel {
 		return button.isSelected();
 	}
 	
+	public void setSelected(boolean state) {
+		button.setSelected(state);
+	}
+	
 	class TheActualButton extends JToggleButton {
 		public TheActualButton() {
 			setSize(buttonSize);

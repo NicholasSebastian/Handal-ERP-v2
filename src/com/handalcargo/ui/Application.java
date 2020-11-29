@@ -14,7 +14,7 @@ import com.handalcargo.ui.pages.*;
 public class Application extends JFrame {
 	
 	private static final Dimension defaultWindowSize = new Dimension(1280, 720);
-	private static final Dimension minimumWindowSize = new Dimension(960, 640);
+	private static final Dimension minimumWindowSize = new Dimension(960, 720);
 	
 	private static Application instance = null;
 	
