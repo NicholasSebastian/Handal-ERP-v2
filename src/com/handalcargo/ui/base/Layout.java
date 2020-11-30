@@ -15,7 +15,7 @@ import com.handalcargo.ui.components.ScrollPanel;
 
 public abstract class Layout extends JPanel implements Updateable {
 
-	protected abstract TableModel setTableModel();
+	protected abstract TableModel setTableModel(String filter);
 	protected abstract JPanel createForm();
 	protected abstract void setForm(Object selected);
 	protected abstract void onAdd();
@@ -65,7 +65,7 @@ public abstract class Layout extends JPanel implements Updateable {
 	@Override 
 	public void refresh() {
 		displayPage("Overview");
-		table.setModel(setTableModel());
+		table.setModel(setTableModel(null));
 	}
 	
 	class Overview extends JPanel {
@@ -127,7 +127,7 @@ public abstract class Layout extends JPanel implements Updateable {
 		}
 		
 		private void onSearch(String searchText) {
-			System.out.println(searchText);
+			table.setModel(setTableModel(searchText));
 		}
 		
 		private void onModifyButton() {

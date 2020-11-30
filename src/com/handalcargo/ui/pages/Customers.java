@@ -16,7 +16,7 @@ public class Customers extends Layout {
 	}
 	
 	@Override
-	protected TableModel setTableModel() {
+	protected TableModel setTableModel(String filter) {
 		
 		return new DefaultTableModel();
 	}

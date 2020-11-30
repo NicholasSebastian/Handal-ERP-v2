@@ -48,13 +48,16 @@ public class Staff extends Layout {
 	}
 	
 	@Override
-	protected TableModel setTableModel() {
+	protected TableModel setTableModel(String filter) {
 		final String[] columns = {"Staff ID", "Name", "Access Level", "Group"};
 		ArrayList<String[]> data = new ArrayList<>();
 		
 		try {
-			ResultSet results = Database.query("SELECT `staffid`, `staffname`, `level` FROM staff");
+			String query = "SELECT `staffid`, `staffname`, `level` FROM staff";
+			if (filter != null && filter.length() > 0) 
+				query += String.format(" WHERE `staffid` LIKE '%%%s%%'", filter);
 			
+			ResultSet results = Database.query(query);
 			while (results.next()) {
 				data.add(new String[] {
 					results.getString(1), 
