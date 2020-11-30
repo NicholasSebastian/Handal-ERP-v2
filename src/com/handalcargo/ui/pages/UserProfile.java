@@ -3,10 +3,9 @@ package com.handalcargo.ui.pages;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-
 import javax.swing.*;
 
-import com.handalcargo.data.Session;
+import com.handalcargo.core.Session;
 import com.handalcargo.ui.Styles;
 
 public class UserProfile extends JPanel {

@@ -7,7 +7,7 @@ import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 import com.handalcargo.ui.Styles;
-import com.handalcargo.data.Session;
+import com.handalcargo.core.Session;
 import com.handalcargo.ui.Application;
 
 public class Header extends JPanel {

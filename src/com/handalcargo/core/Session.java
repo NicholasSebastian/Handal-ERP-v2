@@ -1,9 +1,8 @@
-package com.handalcargo.data;
+package com.handalcargo.core;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import com.handalcargo.core.Database;
 
 public class Session {
 	

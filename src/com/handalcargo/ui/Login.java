@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 import com.handalcargo.core.Database;
 import com.handalcargo.core.Encryption;
-import com.handalcargo.data.Session;
+import com.handalcargo.core.Session;
 import com.handalcargo.ui.components.Button;
 
 public class Login extends JFrame {

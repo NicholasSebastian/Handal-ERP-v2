@@ -169,13 +169,9 @@ public abstract class Layout extends JPanel implements Updateable {
 		}
 	}
 	
-	class FormPane extends JScrollPane {
+	class FormPane extends ScrollPanel {
 		private FormPane(JPanel content, boolean a) {
 			super(content);
-			setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
-			setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			getVerticalScrollBar().setUnitIncrement(16);
 			
 			JPanel finishPanel = new JPanel();
 			finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
