@@ -3,7 +3,6 @@ package com.handalcargo.ui.base;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
@@ -31,7 +30,7 @@ public abstract class Layout extends JPanel implements Updateable {
 	}
 	
 	public Layout(String title) {
-		setBorder(new EmptyBorder(20, 20, 20, 20));
+		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		setLayout(new BorderLayout());
 		
 		// Title panel
