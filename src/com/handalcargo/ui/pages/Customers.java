@@ -17,6 +17,7 @@ public class Customers extends Layout {
 	
 	@Override
 	protected TableModel setTableModel() {
+		
 		return new DefaultTableModel();
 	}
 	

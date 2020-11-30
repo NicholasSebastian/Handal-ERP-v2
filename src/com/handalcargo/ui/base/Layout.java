@@ -3,7 +3,6 @@ package com.handalcargo.ui.base;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -50,7 +49,7 @@ public abstract class Layout extends JPanel implements Updateable {
 		content = new CardLayout();
 		contentPanel.setLayout(content);
 		contentPanel.setBorder(
-			new CompoundBorder(
+			BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(2, 0, 0, 0, Styles.headerColor), 
 				BorderFactory.createEmptyBorder(10, 10, 10, 10))
 			);
@@ -189,13 +188,18 @@ public abstract class Layout extends JPanel implements Updateable {
 					new Dimension(100, 40), true, e -> {
 						if (a) onAdd(); 
 						else onModify();
-			}));
+						refresh();
+					}
+			));
 			
 			finishPanel.add(
 				new Button(
 					"Cancel", 
 					Styles.red, Styles.redHover, 
-					new Dimension(100, 40), true, e -> displayPage("Overview")
+					new Dimension(100, 40), true, e -> {
+						displayPage("Overview");
+						refresh();
+					}
 			));
 			
 			GridBagConstraints c = ((GridBagLayout) content.getLayout()).getConstraints(content.getComponent(content.getComponentCount() - 1));

@@ -29,6 +29,9 @@ public class SliderButton extends JPanel {
 	
 	class TheActualButton extends JToggleButton {
 		public TheActualButton() {
+			setContentAreaFilled(false);
+			setBorderPainted(false);
+			
 			setSize(buttonSize);
 			setPreferredSize(buttonSize);
 			setMaximumSize(buttonSize);

@@ -199,7 +199,7 @@ public class Staff extends Layout {
 			+ "`pwd`='?' "
 			+ "WHERE `staffid`='?'", 
 			statement -> {
-				try {		// TODO
+				try {			// TODO
 					statement.setString(1, nameField.getText());
 					statement.setString(2, Encryption.encrypt(new String(passwordField.getPassword())));
 					
