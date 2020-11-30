@@ -6,7 +6,12 @@ import java.awt.Font;
 public class Styles {
 	
 	public static final Font 
-		headerFont = new Font("Arial", Font.BOLD, 20);
+		headerFont = new Font("Arial", Font.BOLD, 20),
+		headerLogoFont = new Font("Arial Black", Font.BOLD, 22),
+		headerProfileFont = new Font("Arial", Font.BOLD, 16),
+		
+		sidebarButtonFont = new Font("Arial", Font.BOLD, 16),
+		sidebarSubButtonFont = new Font("Arial", Font.PLAIN, 14);
 	
 	public static final Color
 		blue = new Color(0, 104, 192),
@@ -34,6 +39,16 @@ public class Styles {
 		scrollBarColor = new Color(200, 200, 200);
 	
 	public static final int
+		headerHeight = 50,
+		headerProfileIconSize = 25,
+		
+		sidebarWidth = 260,
+		sidebarButtonHeight = 40,
+		sidebarButtonPadding = 20,
+		sidebarSubButtonPadding = 30,
+		sidebarButtonIconSize = 16,
+		sidebarSubButtonIconSize = 12,
+		
 		buttonSize = 30,
 		buttonIconSize = 15,
 		tableRowHeight = 30;

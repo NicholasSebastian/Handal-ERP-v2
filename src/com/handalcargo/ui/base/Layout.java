@@ -1,7 +1,6 @@
 package com.handalcargo.ui.base;
 
 import java.awt.*;
-import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -9,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import com.handalcargo.core.Database;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.IconButton;
@@ -43,7 +41,7 @@ public abstract class Layout extends JPanel implements Updateable {
 		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(titlePanel, BorderLayout.NORTH);
 		
-		JLabel titleLabel = new JLabel("Staff");
+		JLabel titleLabel = new JLabel(title);
 		titleLabel.setFont(Styles.headerFont);
 		titlePanel.add(titleLabel);
 		

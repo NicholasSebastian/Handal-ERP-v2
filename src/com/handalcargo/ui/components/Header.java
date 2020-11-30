@@ -12,22 +12,14 @@ import com.handalcargo.ui.Application;
 
 public class Header extends JPanel {
 	
-	private static final Font
-		logoFont = new Font("Arial Black", Font.BOLD, 22),
-		profileFont = new Font("Arial", Font.BOLD, 16);
-	
-	private static final int 
-		height = 50,
-		profileIconSize = 25;
-	
 	public Header() {
-		setPreferredSize(new Dimension(0, height));
+		setPreferredSize(new Dimension(0, Styles.headerHeight));
 		setBackground(Styles.headerColor);
 		setLayout(new BorderLayout());
 		
 		// Handal Cargo logo.
 		JLabel logo = new JLabel("Handal Cargo");
-		logo.setFont(logoFont);
+		logo.setFont(Styles.headerLogoFont);
 		logo.setForeground(Color.WHITE);
 		logo.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		add(logo, BorderLayout.WEST);
@@ -42,12 +34,12 @@ public class Header extends JPanel {
 			
 			// Display username.
 			setText(Session.getInstance().username);
-			setFont(profileFont);
+			setFont(Styles.headerProfileFont);
 			setForeground(Color.WHITE);
 			
 			// Display avatar icon.
 			ImageIcon icon = new ImageIcon(this.getClass().getResource("/user.png"));
-			Image scaledImage = icon.getImage().getScaledInstance(profileIconSize, profileIconSize, Image.SCALE_SMOOTH);
+			Image scaledImage = icon.getImage().getScaledInstance(Styles.headerProfileIconSize, Styles.headerProfileIconSize, Image.SCALE_SMOOTH);
 			setIcon(new ImageIcon(scaledImage));
 			setIconTextGap(8);
 			

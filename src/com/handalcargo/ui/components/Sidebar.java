@@ -13,26 +13,12 @@ import com.handalcargo.ui.Application;
 import static com.handalcargo.ui.Application.promptExit;
 
 public class Sidebar extends JPanel {
-	
-	private static final Font
-		buttonFont = new Font("Arial", Font.BOLD, 16),
-		subButtonFont = new Font("Arial", Font.PLAIN, 14);
-	
-	private final int 
-		width = 260,
-		buttonHeight = 40,
-		buttonIconSize = 16,
-		subButtonIconSize = 12;
-
-	private Insets
-		buttonPadding = new Insets(0, 20, 0, 0),
-		subButtonPadding = new Insets(0, 30, 0, 0);
 
 	private ArrayList<CategoryButton> buttons;
 	
 	public Sidebar() {
 		setBackground(Styles.sideBarColor);
-		setPreferredSize(new Dimension(width, 0));
+		setPreferredSize(new Dimension(Styles.sidebarWidth, 0));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// Subcategory names
@@ -80,7 +66,7 @@ public class Sidebar extends JPanel {
 			layout = new GridLayout(1, 1);
 			setLayout(layout);
 			
-			size = new Dimension(width, buttonHeight);
+			size = new Dimension(Styles.sidebarWidth, Styles.sidebarButtonHeight);
 			setMinimumSize(size);
 			setMaximumSize(size);
 			
@@ -88,14 +74,14 @@ public class Sidebar extends JPanel {
 			headerButton = new JToggleButton();
 			
 			headerButton.setText(text);
-			headerButton.setFont(buttonFont);
+			headerButton.setFont(Styles.sidebarButtonFont);
 			headerButton.setForeground(Color.WHITE);
 			
 			// Button icon.
 			try {
 				String iconPath = String.format("/%s.png", text.toLowerCase().replaceAll("\\s+", ""));
 				ImageIcon icon = new ImageIcon(this.getClass().getResource(iconPath));
-				Image scaledIcon = icon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH);
+				Image scaledIcon = icon.getImage().getScaledInstance(Styles.sidebarButtonIconSize, Styles.sidebarButtonIconSize, Image.SCALE_SMOOTH);
 				headerButton.setIcon(new ImageIcon(scaledIcon));
 				headerButton.setIconTextGap(10);
 			}
@@ -108,7 +94,7 @@ public class Sidebar extends JPanel {
 			headerButton.setBackground(Styles.sideBarButtonHoverColor);
 			
 			headerButton.setHorizontalAlignment(SwingConstants.LEFT);
-			headerButton.setMargin(buttonPadding);
+			headerButton.setMargin(new Insets(0, Styles.sidebarButtonPadding, 0, 0));
 			
 			headerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			headerButton.setContentAreaFilled(false);
@@ -134,12 +120,12 @@ public class Sidebar extends JPanel {
 					JButton subButton = new JButton();
 					
 					subButton.setText(subcategory);
-					subButton.setFont(subButtonFont);
+					subButton.setFont(Styles.sidebarSubButtonFont);
 					subButton.setForeground(Color.WHITE);
 					
 					// SubButton icon.
 					ImageIcon subIcon = new ImageIcon(this.getClass().getResource("/check.png"));
-					Image scaledSubIcon = subIcon.getImage().getScaledInstance(subButtonIconSize, subButtonIconSize, Image.SCALE_SMOOTH);
+					Image scaledSubIcon = subIcon.getImage().getScaledInstance(Styles.sidebarSubButtonIconSize, Styles.sidebarSubButtonIconSize, Image.SCALE_SMOOTH);
 					subButton.setIcon(new ImageIcon(scaledSubIcon));
 					subButton.setIconTextGap(10);
 					
@@ -148,7 +134,7 @@ public class Sidebar extends JPanel {
 					subButton.setBackground(Styles.sideBarSubButtonColor);
 					
 					subButton.setHorizontalAlignment(SwingConstants.LEFT);
-					subButton.setMargin(subButtonPadding);
+					subButton.setMargin(new Insets(0, Styles.sidebarSubButtonPadding, 0, 0));
 					
 					subButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					subButton.setBorderPainted(false);
@@ -216,7 +202,7 @@ public class Sidebar extends JPanel {
 		private void expand() {
 			// Expand size and number of rows.
 			int items = 1 + subcategories.length;
-			size.setSize(width, buttonHeight * items);
+			size.setSize(Styles.sidebarWidth, Styles.sidebarButtonHeight * items);
 			layout.setRows(items);
 			CategoryButton.this.setMaximumSize(size);
 			CategoryButton.this.setLayout(layout);
@@ -229,7 +215,7 @@ public class Sidebar extends JPanel {
 		
 		private void shrink() {
 			// Shrink size and number of rows.
-			size.setSize(width, buttonHeight);
+			size.setSize(Styles.sidebarWidth, Styles.sidebarButtonHeight);
 			layout.setRows(1);
 			CategoryButton.this.setMaximumSize(size);
 			CategoryButton.this.setLayout(layout);
