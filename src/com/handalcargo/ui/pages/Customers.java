@@ -40,16 +40,24 @@ public class Customers extends Layout {
 	private JTextField contact1Field;
 	private JTextField contact2Field;
 	private JTextField sizedescField;
-	private JTextField packetdescField;
+	private JTextField courierdescField;
 	private JTextArea othersField;
 	private DatePicker dateaddedField;
 	private SliderButton statusField;
 	private JTextField markingField;
-	private JButton packetButton;
+	private JButton courierButton;
 	private JButton markingButton;
 	private JTable markingTable;
 	private JButton historyButton;
 	private JButton deleteButton;
+	private JTextField packetdescField;
+	private JButton packetButton;
+	private JComboBox<String> byField;
+	private JTextField rutedescField;
+	private JButton ruteButton;
+	private JTextField priceField;
+	private JTable packetTable;
+	private JButton packetdeleteButton;
 	
 	public Customers() {
 		super("Customers");
@@ -134,7 +142,7 @@ public class Customers extends Layout {
 		c.gridy++;	formPanel.add(new JLabel("Contact Person 1"), c);
 		c.gridy++;	formPanel.add(new JLabel("Contact Person 2"), c);
 		c.gridy++;	formPanel.add(new JLabel("Size Description"), c);
-		c.gridy++;	formPanel.add(new JLabel("Packet Description"), c);
+		c.gridy++;	formPanel.add(new JLabel("Courier Description"), c);
 		c.gridy++;	formPanel.add(new JLabel("Others"), c);
 		c.gridy++;	formPanel.add(new JLabel("Date Added"), c);
 		c.gridy++;	formPanel.add(new JLabel("Status"), c);
@@ -183,14 +191,14 @@ public class Customers extends Layout {
 					formPanel.add(contact2Field, c);
 		c.gridy++;	sizedescField = new FormField();	
 					formPanel.add(sizedescField, c);
-		c.gridy++;	packetdescField = new FormField();	
-					formPanel.add(packetdescField, c);
+		c.gridy++;	courierdescField = new FormField();	
+					formPanel.add(courierdescField, c);
 		c.gridx = 2;	c.weightx = 0.0;
-					packetButton = new IconButton("/add.png", Styles.green, Styles.greenHover, 
+					courierButton = new IconButton("/add.png", Styles.green, Styles.greenHover, 
 						new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
 							System.out.println("clicked on it");
 						});
-					formPanel.add(packetButton, c);
+					formPanel.add(courierButton, c);
 		c.gridx = 1;	c.weightx = 1.0;
 		c.gridy++;	othersField = new JTextArea();	
 					formPanel.add(othersField, c);
@@ -236,6 +244,67 @@ public class Customers extends Layout {
 						});
 					deleteButton.setText("Delete");
 					markingButtons.add(deleteButton);
+		c.gridy++;
+		c.gridx = 0;
+					formPanel.add(new JLabel("Packet Description"), c);
+		c.gridx = 1;
+					packetdescField = new FormField();	
+					formPanel.add(packetdescField, c);
+		c.gridx = 2;	c.weightx = 0.0;	
+					packetButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
+						new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
+							System.out.println("clicked on it");
+						});
+					formPanel.add(packetButton, c);
+		c.weightx = 1.0;
+		c.gridy++;
+		c.gridx = 0;
+					formPanel.add(new JLabel("By"), c);
+		c.gridx = 1;
+					byField = new JComboBox<String>(new String[] {"Air", "Sea"});
+					formPanel.add(byField, c);
+		c.gridy++;
+		c.gridx = 0;
+					formPanel.add(new JLabel("Route"), c);
+		c.gridx = 1;
+					rutedescField = new FormField();	
+					formPanel.add(rutedescField, c);
+		c.gridx = 2;	c.weightx = 0.0;	
+					ruteButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
+						new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
+							System.out.println("clicked on it");
+						});
+					formPanel.add(ruteButton, c);
+		c.weightx = 1.0;
+		c.gridy++;
+		c.gridx = 0;
+					formPanel.add(new JLabel("Price"), c);
+		c.gridx = 1;
+					priceField = new FormField();	
+					formPanel.add(priceField, c);			
+		c.gridy++;
+		c.gridx = 0;	c.gridwidth = 3;
+					packetTable = new Table();
+					packetTable.setModel(new DefaultTableModel(new String[] {"Date", "Packet Description", "By", "Route", "Price", "Final Price", "User"}, 0));
+					packetTable.setRowHeight(Styles.tableRowHeight);
+
+					JScrollPane packetscrollPanel = new ScrollPanel();
+					packetscrollPanel.setViewportView(packetTable);
+					packetscrollPanel.setPreferredSize(new Dimension(0, Styles.innerTableHeight));
+		
+					formPanel.add(packetscrollPanel, c);
+		c.gridy++;
+					JPanel packetButtons = new JPanel();
+					packetButtons.setLayout(new FlowLayout(FlowLayout.LEFT));
+					packetButtons.setOpaque(false);
+					formPanel.add(packetButtons, c);
+
+					packetdeleteButton = new IconButton("/delete.png", Styles.red, Styles.redHover, 
+							new Dimension(100, Styles.buttonSize), e -> {
+								System.out.println("clicked on it");
+							});
+					packetdeleteButton.setText("Delete");
+					packetButtons.add(packetdeleteButton);
 					
 		return formPanel;
 	}
