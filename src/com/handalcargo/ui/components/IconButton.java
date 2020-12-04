@@ -11,14 +11,13 @@ import com.handalcargo.ui.Styles;
 
 public class IconButton extends JButton {
 	
-	public IconButton(String iconPath, Color color, Color hoverColor, Consumer<ActionEvent> function) {
+	public IconButton(String iconPath, Color color, Color hoverColor, Dimension size, Consumer<ActionEvent> function) {
 		
 		// Set icon
 		ImageIcon icon = new ImageIcon(this.getClass().getResource(iconPath));
 		Image scaledIcon = icon.getImage().getScaledInstance(Styles.buttonIconSize, Styles.buttonIconSize, Image.SCALE_SMOOTH);
 		setIcon(new ImageIcon(scaledIcon));
 		
-		Dimension size = new Dimension(Styles.buttonSize, Styles.buttonSize);
 		setSize(size);
 		setPreferredSize(size);
 		setMaximumSize(size);

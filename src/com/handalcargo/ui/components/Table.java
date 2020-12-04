@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import com.handalcargo.ui.Styles;
@@ -35,6 +36,11 @@ public class Table extends JTable {
 		
 		// Disable table dragging.
 		getTableHeader().setReorderingAllowed(false);
+		
+		// Header colors.
+		getTableHeader().setOpaque(false);
+		getTableHeader().setBackground(Styles.headerColor);
+		getTableHeader().setForeground(Color.WHITE);
 		
 		// Remove table header borders and set color.
 		getTableHeader().setDefaultRenderer(new TableCellRenderer() {

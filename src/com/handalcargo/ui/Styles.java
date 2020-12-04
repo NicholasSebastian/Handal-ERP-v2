@@ -58,5 +58,7 @@ public class Styles {
 		
 		buttonSize = 30,
 		buttonIconSize = 15,
-		tableRowHeight = 30;
+		tableRowHeight = 30,
+		tableColumnWidth = 110,
+		innerTableHeight = 200;
 }

@@ -63,7 +63,8 @@ public class StaffGroups extends JPanel implements Updateable {
 				c.gridy++;
 				c.gridx = 0;	c.weightx = 0;	contentPanel.add(new FormField(results.getString(1)), c);
 				c.gridx = 1;	c.weightx = 1;	contentPanel.add(new FormField(results.getString(2)), c);
-				c.gridx = 2;	c.weightx = 0;	contentPanel.add(new IconButton("/delete.png", Styles.red, Styles.redHover, e -> System.out.println("click")), c);
+				c.gridx = 2;	c.weightx = 0;	contentPanel.add(new IconButton("/delete.png", Styles.red, Styles.redHover, 
+													new Dimension(Styles.buttonSize, Styles.buttonSize), e -> System.out.println("click")), c);
 			}
 		}
 		catch (Exception e) {

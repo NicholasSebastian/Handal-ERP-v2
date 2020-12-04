@@ -13,7 +13,7 @@ public class ScrollPanel extends JScrollPane {
 
 	public ScrollPanel() {
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY));
-		setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		getHorizontalScrollBar().setBackground(Color.WHITE);
 		getVerticalScrollBar().setBackground(Color.WHITE);

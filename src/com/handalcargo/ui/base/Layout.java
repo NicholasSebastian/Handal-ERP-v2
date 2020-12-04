@@ -1,9 +1,9 @@
 package com.handalcargo.ui.base;
 
 import java.awt.*;
-
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import com.handalcargo.ui.Styles;
@@ -65,6 +65,15 @@ public abstract class Layout extends JPanel implements Updateable {
 	public void refresh() {
 		displayPage("Overview");
 		table.setModel(setTableModel(null));
+
+		// Resize column widths
+		if (table.getColumnModel().getColumnCount() > 8) {
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			
+			for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setPreferredWidth(Styles.tableColumnWidth);
+			}
+		}
 	}
 	
 	class Overview extends JPanel {
@@ -88,7 +97,8 @@ public abstract class Layout extends JPanel implements Updateable {
 			
 			topPanel.add(Box.createHorizontalStrut(5));
 			
-			JButton searchButton = new IconButton("/search.png", Styles.blue, Styles.blueHover, e -> onSearch(searchField.getText()));
+			JButton searchButton = new IconButton("/search.png", Styles.blue, Styles.blueHover, 
+					new Dimension(Styles.buttonSize, Styles.buttonSize), e -> onSearch(searchField.getText()));
 			topPanel.add(searchButton);
 			
 			// Right panel.
@@ -98,17 +108,20 @@ public abstract class Layout extends JPanel implements Updateable {
 			rightPanel.setOpaque(false);
 			add(rightPanel, BorderLayout.EAST);
 			
-			JButton addButton = new IconButton("/add.png", Styles.green, Styles.greenHover, e -> displayPage("Add"));
+			JButton addButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
+					new Dimension(Styles.buttonSize, Styles.buttonSize), e -> displayPage("Add"));
 			rightPanel.add(addButton);
 			
 			rightPanel.add(Box.createVerticalStrut(10));
 			
-			JButton modifyButton = new IconButton("/modify.png", Styles.yellow, Styles.yellowHover, e -> onModifyButton());
+			JButton modifyButton = new IconButton("/modify.png", Styles.yellow, Styles.yellowHover, 
+					new Dimension(Styles.buttonSize, Styles.buttonSize), e -> onModifyButton());
 			rightPanel.add(modifyButton);
 			
 			rightPanel.add(Box.createVerticalStrut(10));
 			
-			JButton deleteButton = new IconButton("/delete.png", Styles.red, Styles.redHover, e -> onDeleteButton());
+			JButton deleteButton = new IconButton("/delete.png", Styles.red, Styles.redHover, 
+					new Dimension(Styles.buttonSize, Styles.buttonSize), e -> onDeleteButton());
 			rightPanel.add(deleteButton);
 			
 			// Content table.
@@ -116,11 +129,6 @@ public abstract class Layout extends JPanel implements Updateable {
 			JScrollPane scrollPane = new ScrollPanel();
 			scrollPane.setViewportView(table);
 			table.setRowHeight(Styles.tableRowHeight);
-			
-			JTableHeader header = table.getTableHeader();
-			header.setOpaque(false);
-			header.setBackground(Styles.headerColor);
-			header.setForeground(Color.WHITE);
 			
 			add(scrollPane, BorderLayout.CENTER);
 		}
@@ -198,7 +206,8 @@ public abstract class Layout extends JPanel implements Updateable {
 			));
 			
 			GridBagConstraints c = ((GridBagLayout) content.getLayout()).getConstraints(content.getComponent(content.getComponentCount() - 1));
-			c.gridy++;	
+			c.gridx = 1;	c.gridy++;	
+			c.gridwidth = 2;
 			content.add(finishPanel, c);
 		}
 	}
