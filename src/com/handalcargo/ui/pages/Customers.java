@@ -6,6 +6,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.handalcargo.ui.base.Layout;
+import com.handalcargo.ui.components.FormField;
 
 public class Customers extends Layout {
 	
@@ -42,7 +43,7 @@ public class Customers extends Layout {
 		c.anchor = GridBagConstraints.LINE_START;
 		c.gridy = 0;
 		
-		c.gridy++;	nameField = new JTextField();	
+		c.gridy++;	nameField = new FormField();	
 					formPanel.add(nameField, c);
 		
 		return formPanel;

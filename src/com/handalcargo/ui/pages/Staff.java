@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -17,10 +15,9 @@ import com.handalcargo.core.Database;
 import com.handalcargo.core.Encryption;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
-import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.SliderButton;
-import com.mysql.cj.xdevapi.Statement;
 import com.handalcargo.ui.components.DatePicker;
+import com.handalcargo.ui.components.FormField;
 
 public class Staff extends Layout {
 
@@ -118,21 +115,23 @@ public class Staff extends Layout {
 
 		// TODO: fix address text area.
 		
-		c.gridy++;	nameField = new JTextField();	
+		c.gridy++;	nameField = new FormField();	
 					formPanel.add(nameField, c);
-		c.gridy++;	aliasField = new JTextField();
+		c.gridy++;	aliasField = new FormField();
 					formPanel.add(aliasField, c);
 		c.gridy++;	passwordField = new JPasswordField();
+					passwordField.setFont(Styles.fieldFont);
+					passwordField.setMargin(new Insets(6, 6, 6, 6));
 					formPanel.add(passwordField, c);
 		c.gridy++;	levelPicker = new JComboBox<String>();
 					formPanel.add(levelPicker, c);
 		c.gridy++;	addressField = new JTextArea();
 					formPanel.add(addressField, c);
-		c.gridy++;	districtField = new JTextField();
+		c.gridy++;	districtField = new FormField();
 					formPanel.add(districtField, c);
-		c.gridy++;	cityField = new JTextField();
+		c.gridy++;	cityField = new FormField();
 					formPanel.add(cityField, c);
-		c.gridy++;	phoneField = new JTextField();
+		c.gridy++;	phoneField = new FormField();
 					formPanel.add(phoneField, c);
 		c.gridy++;	genderPicker = new JComboBox<String>(new String[] {"Male", "Female"});
 					formPanel.add(genderPicker, c);
@@ -140,13 +139,13 @@ public class Staff extends Layout {
 					formPanel.add(birthplaceField, c);
 		c.gridy++;	birthdayField = new DatePicker();
 					formPanel.add(birthdayField, c);
-		c.gridy++;	salaryField = new JTextField();
+		c.gridy++;	salaryField = new FormField();
 					formPanel.add(salaryField, c);
-		c.gridy++;	overtimeField = new JTextField();
+		c.gridy++;	overtimeField = new FormField();
 					formPanel.add(overtimeField, c);
-		c.gridy++;	allowanceField = new JTextField();
+		c.gridy++;	allowanceField = new FormField();
 					formPanel.add(allowanceField, c);
-		c.gridy++;	bonusField = new JTextField();
+		c.gridy++;	bonusField = new FormField();
 					formPanel.add(bonusField, c);
 		c.gridy++;	groupPicker = new JComboBox<String>();
 					formPanel.add(groupPicker, c);

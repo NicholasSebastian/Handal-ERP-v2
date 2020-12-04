@@ -9,6 +9,7 @@ import com.handalcargo.core.Database;
 import com.handalcargo.core.Encryption;
 import com.handalcargo.core.Session;
 import com.handalcargo.ui.components.Button;
+import com.handalcargo.ui.components.FormField;
 
 public class Login extends JFrame {
 
@@ -61,12 +62,6 @@ public class Login extends JFrame {
 	
 	class LoginView extends JPanel {
 		
-		private final int iconSize = 20;
-		private final Font
-			titleFont = new Font("Arial", Font.BOLD, 18),
-			formFont = new Font("Arial", Font.PLAIN, 14),
-			buttonFont = new Font("Arial", Font.BOLD, 14);
-		
 		private LoginView() {
 			setLayout(new BorderLayout());
 			
@@ -78,7 +73,7 @@ public class Login extends JFrame {
 			add(topPanel, BorderLayout.NORTH);
 			
 			JLabel titleLabel = new JLabel("HANDAL CARGO");
-			titleLabel.setFont(titleFont);
+			titleLabel.setFont(Styles.loginTitleFont);
 			titleLabel.setForeground(Color.WHITE);
 			titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 			topPanel.add(titleLabel, BorderLayout.WEST);
@@ -92,15 +87,13 @@ public class Login extends JFrame {
 			
 			// Username.
 			ImageIcon usernameIcon = new ImageIcon(this.getClass().getResource("/username.png"));
-			Image scaledUsernameImage = usernameIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH);
+			Image scaledUsernameImage = usernameIcon.getImage().getScaledInstance(Styles.loginIconSize, Styles.loginIconSize, Image.SCALE_SMOOTH);
 			JLabel usernameLabel = new JLabel(new ImageIcon(scaledUsernameImage));
-			JTextField usernameField = new JTextField();
+			JTextField usernameField = new FormField();
 			usernameLabel.setOpaque(true);
 			usernameLabel.setBackground(Styles.gray);
 			usernameLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			usernameField.setColumns(25);
-			usernameField.setFont(formFont);
-			usernameField.setMargin(new Insets(6, 6, 6, 6));
 			usernameField.addFocusListener(new FocusListener() {
 				@Override
 				public void focusGained(FocusEvent e) {
@@ -119,14 +112,14 @@ public class Login extends JFrame {
 			
 			// Password.
 			ImageIcon passwordIcon = new ImageIcon(this.getClass().getResource("/password.png"));
-			Image scaledPasswordImage = passwordIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH);
+			Image scaledPasswordImage = passwordIcon.getImage().getScaledInstance(Styles.loginIconSize, Styles.loginIconSize, Image.SCALE_SMOOTH);
 			JLabel passwordLabel = new JLabel(new ImageIcon(scaledPasswordImage));
 			JPasswordField passwordField = new JPasswordField();
 			passwordLabel.setOpaque(true);
 			passwordLabel.setBackground(Styles.gray);
 			passwordLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			passwordField.setColumns(25);
-			passwordField.setFont(formFont);
+			passwordField.setFont(Styles.fieldFont);
 			passwordField.setMargin(new Insets(6, 6, 6, 6));
 			passwordField.addFocusListener(new FocusListener() {
 				@Override
@@ -145,7 +138,7 @@ public class Login extends JFrame {
 
 			// Login Button and functionality.
 			JButton loginButton = new Button(
-				"Login", Styles.blue, Styles.blueHover, new Dimension(100, 40), true, buttonFont, 
+				"Login", Styles.blue, Styles.blueHover, new Dimension(100, 40), true, Styles.loginButtonFont, 
 				e -> onLogin(usernameField.getText(), String.valueOf(passwordField.getPassword())));
 			contentPanel.add(loginButton);
 		}

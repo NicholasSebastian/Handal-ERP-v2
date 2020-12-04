@@ -6,12 +6,17 @@ import java.awt.Font;
 public class Styles {
 	
 	public static final Font 
+		loginTitleFont = new Font("Arial", Font.BOLD, 18),
+		loginButtonFont = new Font("Arial", Font.BOLD, 14),
+	
 		headerFont = new Font("Arial", Font.BOLD, 20),
 		headerLogoFont = new Font("Arial Black", Font.BOLD, 22),
 		headerProfileFont = new Font("Arial", Font.BOLD, 16),
 		
 		sidebarButtonFont = new Font("Arial", Font.BOLD, 16),
-		sidebarSubButtonFont = new Font("Arial", Font.PLAIN, 14);
+		sidebarSubButtonFont = new Font("Arial", Font.PLAIN, 14),
+		
+		fieldFont = new Font("Arial", Font.PLAIN, 14);
 	
 	public static final Color
 		blue = new Color(0, 104, 192),
@@ -39,6 +44,8 @@ public class Styles {
 		scrollBarColor = new Color(200, 200, 200);
 	
 	public static final int
+		loginIconSize = 20,
+	
 		headerHeight = 50,
 		headerProfileIconSize = 25,
 		

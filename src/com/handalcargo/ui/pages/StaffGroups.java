@@ -9,6 +9,7 @@ import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Updateable;
 import com.handalcargo.ui.components.IconButton;
 import com.handalcargo.ui.components.ScrollPanel;
+import com.handalcargo.ui.components.FormField;
 
 public class StaffGroups extends JPanel implements Updateable {
 
@@ -60,8 +61,8 @@ public class StaffGroups extends JPanel implements Updateable {
 		try {
 			while (results.next()) {
 				c.gridy++;
-				c.gridx = 0;	c.weightx = 0;	contentPanel.add(new JTextField(results.getString(1)), c);
-				c.gridx = 1;	c.weightx = 1;	contentPanel.add(new JTextField(results.getString(2)), c);
+				c.gridx = 0;	c.weightx = 0;	contentPanel.add(new FormField(results.getString(1)), c);
+				c.gridx = 1;	c.weightx = 1;	contentPanel.add(new FormField(results.getString(2)), c);
 				c.gridx = 2;	c.weightx = 0;	contentPanel.add(new IconButton("/delete.png", Styles.red, Styles.redHover, e -> System.out.println("click")), c);
 			}
 		}
