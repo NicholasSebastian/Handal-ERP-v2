@@ -11,9 +11,9 @@ import java.util.stream.IntStream;
 
 public class DatePicker extends JPanel {
 	
-	JComboBox<Integer> date;
-	JComboBox<Month> month;
-	JComboBox<Integer> year;
+	private JComboBox<Integer> date;
+	private JComboBox<Month> month;
+	private JComboBox<Integer> year;
 
 	public DatePicker() {
 		setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -46,5 +46,14 @@ public class DatePicker extends JPanel {
 		
 		String dateString = String.format("%d-%d-%d", selectedYear, selectedMonth.getValue(), selectedDate);
 		return Date.valueOf(dateString);
+	}
+	
+	public void setDate(Date dateValue) {
+		date.setSelectedIndex(dateValue.getDate() - 1);
+		month.setSelectedIndex(dateValue.getMonth());
+		
+		int currentYear = LocalDate.now().getYear();
+		int yearValue = dateValue.getYear() + 1900;
+		year.setSelectedIndex(yearValue - currentYear + 25);
 	}
 }
