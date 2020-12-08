@@ -329,7 +329,7 @@ public class Customers extends Layout {
 				sizedescField.setText(results.getString(19));
 				//courierdescField for getString(20) is here but it should be taken from 'expedisi' table
 				othersField.setText(results.getString(21));
-				//dateaddedField.setText(results.getDate(22)); (setText is incorrect, idk which to use)
+				dateaddedField.setDate(results.getDate(22)); 
 				statusField.setSelected(results.getBoolean(23));
 			}
 		}
