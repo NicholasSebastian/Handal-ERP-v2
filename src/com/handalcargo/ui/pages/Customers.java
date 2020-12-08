@@ -147,6 +147,11 @@ public class Customers extends Layout {
 		c.gridy++;	formPanel.add(new JLabel("Date Added"), c);
 		c.gridy++;	formPanel.add(new JLabel("Status"), c);
 		c.gridy++;	formPanel.add(new JLabel("Marking"), c);
+		c.gridy = 27; formPanel.add(new JLabel("Packet Description"), c);
+		c.gridy = 28; formPanel.add(new JLabel("By"), c);
+		c.gridy = 29; formPanel.add(new JLabel("Route"), c);
+		c.gridy = 30; formPanel.add(new JLabel("Price"), c);
+
 		
 		// Fields
 		c.gridx = 1;	c.weightx = 1.0;
@@ -214,7 +219,7 @@ public class Customers extends Layout {
 							System.out.println("clicked on it");
 						});
 					formPanel.add(markingButton, c);
-		c.gridx = 0;    c.weightx = 1.0;	c.gridwidth = 3;
+		c.gridx = 1;    c.weightx = 1.0;	c.gridwidth = 1;
 		c.gridy++;
 					markingTable = new Table();
 					markingTable.setModel(new DefaultTableModel(new String[] {"Markings"}, 0));
@@ -244,10 +249,8 @@ public class Customers extends Layout {
 						});
 					deleteButton.setText("Delete");
 					markingButtons.add(deleteButton);
-		c.gridy++;
-		c.gridx = 0;
-					formPanel.add(new JLabel("Packet Description"), c);
 		c.gridx = 1;
+		c.gridy++;
 					packetdescField = new FormField();	
 					formPanel.add(packetdescField, c);
 		c.gridx = 2;	c.weightx = 0.0;	
@@ -256,17 +259,11 @@ public class Customers extends Layout {
 							System.out.println("clicked on it");
 						});
 					formPanel.add(packetButton, c);
-		c.weightx = 1.0;
+		c.gridx = 1;	c.weightx = 1.0;
 		c.gridy++;
-		c.gridx = 0;
-					formPanel.add(new JLabel("By"), c);
-		c.gridx = 1;
 					byField = new JComboBox<String>(new String[] {"Air", "Sea"});
 					formPanel.add(byField, c);
 		c.gridy++;
-		c.gridx = 0;
-					formPanel.add(new JLabel("Route"), c);
-		c.gridx = 1;
 					rutedescField = new FormField();	
 					formPanel.add(rutedescField, c);
 		c.gridx = 2;	c.weightx = 0.0;	
@@ -275,15 +272,12 @@ public class Customers extends Layout {
 							System.out.println("clicked on it");
 						});
 					formPanel.add(ruteButton, c);
-		c.weightx = 1.0;
+		c.gridx = 1;	c.weightx = 1.0;
 		c.gridy++;
-		c.gridx = 0;
-					formPanel.add(new JLabel("Price"), c);
-		c.gridx = 1;
 					priceField = new FormField();	
 					formPanel.add(priceField, c);			
 		c.gridy++;
-		c.gridx = 0;	c.gridwidth = 3;
+		c.gridwidth = 1;
 					packetTable = new Table();
 					packetTable.setModel(new DefaultTableModel(new String[] {"Date", "Packet Description", "By", "Route", "Price", "Final Price", "User"}, 0));
 					packetTable.setRowHeight(Styles.tableRowHeight);
@@ -311,7 +305,37 @@ public class Customers extends Layout {
 	
 	@Override
 	protected void setForm(Object selected) {
-		
+		ResultSet results = Database.query(String.format("SELECT * FROM customers WHERE `customerid`='%s'", selected));
+		try {
+			while (results.next()) {	// TODO
+				codeField.setText(results.getString(1));
+				nameField.setText(results.getString(2));
+				companyField.setText(results.getString(3));
+				address1Field.setText(results.getString(4));
+				city1Field.setText(results.getString(5));
+				postalcode1Field.setText(results.getString(6));
+				address2Field.setText(results.getString(7));
+				city2Field.setText(results.getString(8));
+				postalcode2Field.setText(results.getString(9));
+				officephone1Field.setText(results.getString(10));
+				officephone2Field.setText(results.getString(11));
+				mobilephone1Field.setText(results.getString(12));
+				mobilephone2Field.setText(results.getString(13));
+				homephoneField.setText(results.getString(14));
+				faxField.setText(results.getString(15));
+				emailField.setText(results.getString(16));
+				contact1Field.setText(results.getString(17));
+				contact2Field.setText(results.getString(18));
+				sizedescField.setText(results.getString(19));
+				//courierdescField for getString(20) is here but it should be taken from 'expedisi' table
+				othersField.setText(results.getString(21));
+				//dateaddedField.setText(results.getDate(22)); (setText is incorrect, idk which to use)
+				statusField.setSelected(results.getBoolean(23));
+			}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	@Override
