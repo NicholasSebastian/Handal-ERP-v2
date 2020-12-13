@@ -50,7 +50,7 @@ public class Staff extends Layout {
 		ArrayList<String[]> data = new ArrayList<>();
 		
 		try {
-			String query = "SELECT `staffid`, `staffname`, `level` FROM staff";
+			String query = "SELECT `staffid`, `staffname`, `level`, `groupcode` FROM staff";
 			if (filter != null && filter.length() > 0) 
 				query += String.format(" WHERE `staffid` LIKE '%%%s%%'", filter);
 			
@@ -59,7 +59,8 @@ public class Staff extends Layout {
 				data.add(new String[] {
 					results.getString(1), 
 					results.getString(2),
-					results.getString(3)
+					results.getString(3),
+					results.getString(4)
 				});
 			}
 		}
