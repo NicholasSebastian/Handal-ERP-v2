@@ -12,7 +12,7 @@ public class Database {
 	// TODO: everything else.
 	
 	private static final String 
-	    hostname = "192.168.1.103", 
+	    hostname = "192.168.1.104", 
 	    port = "3306",	// Default value. Can be changed in the my.ini file.
 	    databaseName = "handalcargo",
 	    user = "handalcargo",

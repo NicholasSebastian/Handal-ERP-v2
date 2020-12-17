@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,29 +18,13 @@ import com.handalcargo.core.Encryption;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.components.SliderButton;
+import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.DatePicker;
 import com.handalcargo.ui.components.FormField;
 
 public class Staff extends Layout {
 
-	private JTextField nameField;
-	private JTextField aliasField;
-	private JPasswordField passwordField;
-	private JComboBox<String> levelPicker;
-	private JTextArea addressField;
-	private JTextField districtField;
-	private JTextField cityField;
-	private JTextField phoneField;
-	private JComboBox<String> genderPicker;
-	private DatePicker birthplaceField;
-	private DatePicker birthdayField;
-	private JTextField salaryField;
-	private JTextField overtimeField;
-	private JTextField allowanceField;
-	private JTextField bonusField;
-	private JComboBox<String> groupPicker;
-	private SliderButton activeToggle;
-	private DatePicker employDateField;
+	private ModifyForm modifyform;
 	
 	public Staff() {
 		super("Staff");
@@ -76,143 +62,199 @@ public class Staff extends Layout {
 		return new DefaultTableModel(dataArray, columns);
 	}
 	
-	@Override
-	protected JPanel createForm() {
-		JPanel formPanel = new JPanel();
-		formPanel.setBackground(Color.WHITE);
-		formPanel.setLayout(new GridBagLayout());
+	class Form extends JPanel {
 		
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(5, 8, 5, 8);
+		protected JTextField codeField;
+		protected JTextField nameField;
+		protected JPasswordField passwordField;
+		protected JComboBox<String> levelPicker;
+		protected JTextArea addressField;
+		protected JTextField districtField;
+		protected JTextField cityField;
+		protected JTextField phoneField;
+		protected JComboBox<String> genderPicker;
+		protected JTextField birthplaceField;
+		protected DatePicker birthdayField;
+		protected JTextField salaryField;
+		protected JTextField overtimeField;
+		protected JTextField allowanceField;
+		protected JTextField bonusField;
+		protected JComboBox<String> groupPicker;
+		protected SliderButton activeToggle;
+		protected DatePicker employDateField;
 		
-		// Labels
-		c.gridx = 0;	c.gridy = 0;
-		c.anchor = GridBagConstraints.LINE_END;
-		
-		c.gridy++;	formPanel.add(new JLabel("Name"), c);
-		c.gridy++;	formPanel.add(new JLabel("Alias"), c);
-		c.gridy++;	formPanel.add(new JLabel("Password"), c);
-		c.gridy++;	formPanel.add(new JLabel("Level"), c);
-		c.gridy++;	formPanel.add(new JLabel("Address"), c);
-		c.gridy++;	formPanel.add(new JLabel("District"), c);
-		c.gridy++;	formPanel.add(new JLabel("City"), c);
-		c.gridy++;	formPanel.add(new JLabel("Phone Number"), c);
-		c.gridy++;	formPanel.add(new JLabel("Gender"), c);
-		c.gridy++;	formPanel.add(new JLabel("Place of Birth"), c);
-		c.gridy++;	formPanel.add(new JLabel("Date of Birth"), c);
-		c.gridy++;	formPanel.add(new JLabel("Salary"), c);
-		c.gridy++;	formPanel.add(new JLabel("Overtime Pay"), c);
-		c.gridy++;	formPanel.add(new JLabel("Food Allowance"), c);
-		c.gridy++;	formPanel.add(new JLabel("Bonus"), c);
-		c.gridy++;	formPanel.add(new JLabel("Staff Group"), c);
-		c.gridy++;	formPanel.add(new JLabel("Status"), c);
-		c.gridy++;	formPanel.add(new JLabel("Date of Employment"), c);
-		
-		// Fields
-		c.gridx = 1;	c.weightx = 1.0;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.gridy = 0;
+		public Form() {
+			setBackground(Color.WHITE);
+			setLayout(new GridBagLayout());
+			
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(5, 8, 5, 8);
+			
+			// Labels
+			c.gridx = 0;	c.gridy = 0;
+			c.anchor = GridBagConstraints.LINE_END;
+			
+			c.gridy++;	add(new JLabel("Staff ID"), c);
+			c.gridy++;	add(new JLabel("Name"), c);
+			c.gridy++;	add(new JLabel("Password"), c);
+			c.gridy++;	add(new JLabel("Level"), c);
+			c.gridy++;	add(new JLabel("Address"), c);
+			c.gridy++;	add(new JLabel("District"), c);
+			c.gridy++;	add(new JLabel("City"), c);
+			c.gridy++;	add(new JLabel("Phone Number"), c);
+			c.gridy++;	add(new JLabel("Gender"), c);
+			c.gridy++;	add(new JLabel("Place of Birth"), c);
+			c.gridy++;	add(new JLabel("Date of Birth"), c);
+			c.gridy++;	add(new JLabel("Salary"), c);
+			c.gridy++;	add(new JLabel("Overtime Pay"), c);
+			c.gridy++;	add(new JLabel("Food Allowance"), c);
+			c.gridy++;	add(new JLabel("Bonus"), c);
+			c.gridy++;	add(new JLabel("Staff Group"), c);
+			c.gridy++;	add(new JLabel("Status"), c);
+			c.gridy++;	add(new JLabel("Date of Employment"), c);
+			
+			// Fields
+			c.gridx = 1;	c.weightx = 1.0;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridy = 0;
 
-		// TODO: fix address text area.
+			// TODO: fix address text area.
+			
+			c.gridy++;	codeField = new FormField();	
+						add(codeField, c);
+			c.gridy++;	nameField = new FormField();
+						add(nameField, c);
+			c.gridy++;	passwordField = new JPasswordField();
+						passwordField.setFont(Styles.fieldFont);
+						passwordField.setMargin(new Insets(6, 6, 6, 6));
+						add(passwordField, c);
+			c.gridy++;	levelPicker = new JComboBox<String>();
+						add(levelPicker, c);
+			c.gridy++;	addressField = new JTextArea();
+						add(addressField, c);
+			c.gridy++;	districtField = new FormField();
+						add(districtField, c);
+			c.gridy++;	cityField = new FormField();
+						add(cityField, c);
+			c.gridy++;	phoneField = new FormField();
+						add(phoneField, c);
+			c.gridy++;	genderPicker = new JComboBox<String>(new String[] {"Male", "Female"});
+						add(genderPicker, c);
+			c.gridy++;	birthplaceField = new FormField();
+						add(birthplaceField, c);
+			c.gridy++;	birthdayField = new DatePicker();
+						add(birthdayField, c);
+			c.gridy++;	salaryField = new FormField();
+						add(salaryField, c);
+			c.gridy++;	overtimeField = new FormField();
+						add(overtimeField, c);
+			c.gridy++;	allowanceField = new FormField();
+						add(allowanceField, c);
+			c.gridy++;	bonusField = new FormField();
+						add(bonusField, c);
+			c.gridy++;	groupPicker = new JComboBox<String>();
+						add(groupPicker, c);
+			c.gridy++;	activeToggle = new SliderButton();
+						add(activeToggle, c);
+			c.gridy++;	employDateField = new DatePicker();
+						add(employDateField, c);
+						
+			JPanel finishPanel = new JPanel();
+			finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			finishPanel.setOpaque(false);
+						
+			finishPanel.add(
+				new Button("Save", Styles.green, Styles.greenHover, new Dimension(100, 40), true, 
+				e -> {
+					onSave();
+					refresh();
+				}
+			));
+						
+			finishPanel.add(
+				new Button("Cancel", Styles.red, Styles.redHover, new Dimension(100, 40), true, 
+				e -> {
+					displayPage("Overview");
+					refresh();
+				}
+			));
+						
+			c.gridx = 1;	c.gridwidth = 2;
+			c.gridy++;	add(finishPanel, c);
+		}
 		
-		c.gridy++;	nameField = new FormField();	
-					formPanel.add(nameField, c);
-		c.gridy++;	aliasField = new FormField();
-					formPanel.add(aliasField, c);
-		c.gridy++;	passwordField = new JPasswordField();
-					passwordField.setFont(Styles.fieldFont);
-					passwordField.setMargin(new Insets(6, 6, 6, 6));
-					formPanel.add(passwordField, c);
-		c.gridy++;	levelPicker = new JComboBox<String>();
-					formPanel.add(levelPicker, c);
-		c.gridy++;	addressField = new JTextArea();
-					formPanel.add(addressField, c);
-		c.gridy++;	districtField = new FormField();
-					formPanel.add(districtField, c);
-		c.gridy++;	cityField = new FormField();
-					formPanel.add(cityField, c);
-		c.gridy++;	phoneField = new FormField();
-					formPanel.add(phoneField, c);
-		c.gridy++;	genderPicker = new JComboBox<String>(new String[] {"Male", "Female"});
-					formPanel.add(genderPicker, c);
-		c.gridy++;	birthplaceField = new DatePicker();
-					formPanel.add(birthplaceField, c);
-		c.gridy++;	birthdayField = new DatePicker();
-					formPanel.add(birthdayField, c);
-		c.gridy++;	salaryField = new FormField();
-					formPanel.add(salaryField, c);
-		c.gridy++;	overtimeField = new FormField();
-					formPanel.add(overtimeField, c);
-		c.gridy++;	allowanceField = new FormField();
-					formPanel.add(allowanceField, c);
-		c.gridy++;	bonusField = new FormField();
-					formPanel.add(bonusField, c);
-		c.gridy++;	groupPicker = new JComboBox<String>();
-					formPanel.add(groupPicker, c);
-		c.gridy++;	activeToggle = new SliderButton();
-					formPanel.add(activeToggle, c);
-		c.gridy++;	employDateField = new DatePicker();
-					formPanel.add(employDateField, c);
-		
-		return formPanel;
+		public void onSave() {
+			System.out.println("from add form: " + codeField.getText());
+		}
+	}
+	
+	class ModifyForm extends Form {
+		public void setForm(Object selected) {
+			ResultSet results = Database.query(String.format("SELECT * FROM staff WHERE `staffid`='%s'", selected));
+			try {
+				while (results.next()) {	// TODO
+					codeField.setText(results.getString(1));
+					nameField.setText(results.getString(2));
+					passwordField.setText(results.getString(3));
+					//levelPicker.set"SOMETHING"(results.getString(4)); COMBOBOX
+					addressField.setText(results.getString(6));        
+					districtField.setText(results.getString(7));      
+					cityField.setText(results.getString(8));          
+					phoneField.setText(results.getString(9));         
+					//genderPicker.set"SOMETHING"(reuslts.getString(10)); COMBOBOX	
+					birthplaceField.setText(results.getString(11));   
+					birthdayField.setDate(results.getDate(12));;		
+					overtimeField.setText(results.getString(13)); 
+					salaryField.setText(results.getString(14));        
+					allowanceField.setText(results.getString(15));     
+					bonusField.setText(results.getString(16));         
+					activeToggle.setSelected(results.getBoolean(18));
+					employDateField.setDate(results.getDate(19));;		
+				}
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	protected JPanel createAddForm() {
+		return new Form();
+	}
+	
+	@Override
+	protected JPanel createModifyForm() {
+		modifyform = new ModifyForm();
+		return modifyform;
 	}
 	
 	@Override
 	protected void setForm(Object selected) {
-		ResultSet results = Database.query(String.format("SELECT * FROM staff WHERE `staffid`='%s'", selected));
-		try {
-			while (results.next()) {	// TODO
-				aliasField.setText(results.getString(1));
-				nameField.setText(results.getString(2));
-				// levelPicker; 		// 4
-				addressField.setText(results.getString(6));        
-				districtField.setText(results.getString(7));      
-				cityField.setText(results.getString(8));          
-				phoneField.setText(results.getString(9));         
-				// genderPicker;		// 10
-				// birthplaceField;    	// 11
-				// birthdayField;		// 12
-				salaryField.setText(results.getString(14));        
-				overtimeField.setText(results.getString(13));      
-				allowanceField.setText(results.getString(15));     
-				bonusField.setText(results.getString(16));         
-				// groupPicker; 		// 5
-				activeToggle.setSelected(results.getBoolean(18));
-				// employDateField;		// 19
-			}
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		modifyform.setForm(selected);
 	}
 	
-	@Override
-	protected void onAdd() {	// TODO
-		Database.update("INSERT INTO staff VALUES (?, ?, ?, ?)", statement -> {
-			
-		});
-	}
+//	Database.update("INSERT INTO staff VALUES (?, ?, ?, ?)", statement -> {
+//		
+//	});
 	
-	@Override
-	protected void onModify() {
-		Database.update(
-			"UPDATE staff SET "
-			+ "`staffname`='?', "
-			+ "`pwd`='?' "
-			+ "WHERE `staffid`='?'", 
-			statement -> {
-				try {			// TODO
-					statement.setString(1, nameField.getText());
-					statement.setString(2, Encryption.encrypt(new String(passwordField.getPassword())));
-					
-					statement.setString(3, aliasField.getText());
-				}
-				catch (SQLException e) {
-					e.printStackTrace();
-				}
-			});
-	}
+//	Database.update(
+//			"UPDATE staff SET "
+//			+ "`staffname`='?', "
+//			+ "`pwd`='?' "
+//			+ "WHERE `staffid`='?'", 
+//			statement -> {
+//				try {			// TODO
+//					statement.setString(1, nameField.getText());
+//					statement.setString(2, Encryption.encrypt(new String(passwordField.getPassword())));
+//					
+//					statement.setString(3, aliasField.getText());
+//				}
+//				catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+//			});
 	
 	@Override
 	protected void onDelete(Object selected) {

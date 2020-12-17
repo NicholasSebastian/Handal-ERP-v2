@@ -9,21 +9,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import com.handalcargo.core.Database;
+import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.base.Updateable;
+import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.FormField;
 
 public class Expeditions extends Layout {
-	
-	private JTextField expeditioncodeField;
-	private JTextField expeditionnameField;
-	private JTextField routenameField;
-	private JTextField addressField;
-	private JTextField phone1Field;
-	private JTextField phone2Field;
-	private JTextField faxField;
-	private JTextField descField;
 
+	private ModifyForm modifyform;
+	
 	public Expeditions() {
 		super ("Expeditions");
 	}
@@ -64,93 +59,127 @@ public class Expeditions extends Layout {
 		
 		return new DefaultTableModel(dataArray, columns);
 	}
-
+	
+	class Form extends JPanel {
+		
+		protected JTextField expeditioncodeField;
+		protected JTextField expeditionnameField;
+		protected JTextField routenameField;
+		protected JTextField addressField;
+		protected JTextField phone1Field;
+		protected JTextField phone2Field;
+		protected JTextField faxField;
+		protected JTextField descField;
+		
+		public Form() {
+			setBackground(Color.WHITE);
+			setLayout(new GridBagLayout());
+			
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(5, 8, 5, 8);
+			
+			// Labels
+			c.gridx = 0;	c.gridy = 0;
+			c.anchor = GridBagConstraints.LINE_END;
+					
+			c.gridy++;	add(new JLabel("Expedition Code"), c);
+			c.gridy++;	add(new JLabel("Expedition Name"), c);
+			c.gridy++;	add(new JLabel("Route Name"), c);
+			c.gridy++;	add(new JLabel("Address"), c);
+			c.gridy++;	add(new JLabel("Phone 1"), c);
+			c.gridy++;	add(new JLabel("Phone 2"), c);
+			c.gridy++;	add(new JLabel("Fax"), c);
+			c.gridy++;	add(new JLabel("Description"), c);
+			
+			// Fields
+			c.gridx = 1;	c.weightx = 1.0;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridy = 0;
+			
+			c.gridy++;	expeditioncodeField = new FormField();	
+						add(expeditioncodeField, c);
+			c.gridy++;	expeditionnameField = new FormField();	
+						add(expeditionnameField, c);
+			c.gridy++;	routenameField = new FormField();	
+						add(routenameField, c);
+			c.gridy++;	addressField = new FormField();	
+						add(addressField, c);
+			c.gridy++;	phone1Field = new FormField();	
+						add(phone1Field, c);
+			c.gridy++;	phone2Field = new FormField();	
+						add(phone2Field, c);
+			c.gridy++;	faxField = new FormField();	
+						add(faxField, c);
+			c.gridy++;	descField = new FormField();	
+						add(descField, c);
+			JPanel finishPanel = new JPanel();
+			finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			finishPanel.setOpaque(false);
+			finishPanel.add(
+				new Button("Save", Styles.green, Styles.greenHover, new Dimension(100, 40), true, 
+				e -> {
+					onSave();
+					refresh();
+				}
+			));
+										
+			finishPanel.add(
+				new Button("Cancel", Styles.red, Styles.redHover, new Dimension(100, 40), true, 
+					e -> {
+						displayPage("Overview");
+						refresh();
+					}
+			));
+										
+			c.gridx = 1;	c.gridwidth = 2;
+			c.gridy++;	add(finishPanel, c);
+		}
+		
+		public void onSave() {
+		System.out.println("from add form: " + expeditioncodeField.getText());
+		}
+	}
+	
+	class ModifyForm extends Form {
+		public void setForm(Object selected) {
+			ResultSet results = Database.query(String.format("SELECT * FROM expedisi WHERE `expedisicode`='%s'", selected));
+			try {
+				while (results.next()) {	// TODO
+					expeditioncodeField.setText(results.getString(1));
+					expeditionnameField.setText(results.getString(2));
+					routenameField.setText(results.getString(3));
+					addressField.setText(results.getString(4));
+					phone1Field.setText(results.getString(5));
+					phone2Field.setText(results.getString(6));
+					faxField.setText(results.getString(7));
+					descField.setText(results.getString(8));
+				}
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
 	@Override
-	protected JPanel createForm() {
-		// TODO Auto-generated method stub
-		JPanel formPanel = new JPanel();
-		formPanel.setBackground(Color.WHITE);
-		formPanel.setLayout(new GridBagLayout());
-		
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(5, 8, 5, 8);
-		
-		// Labels
-		c.gridx = 0;	c.gridy = 0;
-		c.anchor = GridBagConstraints.LINE_END;
-				
-		c.gridy++;	formPanel.add(new JLabel("Expedition Code"), c);
-		c.gridy++;	formPanel.add(new JLabel("Expedition Name"), c);
-		c.gridy++;	formPanel.add(new JLabel("Route Name"), c);
-		c.gridy++;	formPanel.add(new JLabel("Address"), c);
-		c.gridy++;	formPanel.add(new JLabel("Phone 1"), c);
-		c.gridy++;	formPanel.add(new JLabel("Phone 2"), c);
-		c.gridy++;	formPanel.add(new JLabel("Fax"), c);
-		c.gridy++;	formPanel.add(new JLabel("Description"), c);
-		
-		// Fields
-		c.gridx = 1;	c.weightx = 1.0;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.gridy = 0;
-		
-		c.gridy++;	expeditioncodeField = new FormField();	
-					formPanel.add(expeditioncodeField, c);
-		c.gridy++;	expeditionnameField = new FormField();	
-					formPanel.add(expeditionnameField, c);
-		c.gridy++;	routenameField = new FormField();	
-					formPanel.add(routenameField, c);
-		c.gridy++;	addressField = new FormField();	
-					formPanel.add(addressField, c);
-		c.gridy++;	phone1Field = new FormField();	
-					formPanel.add(phone1Field, c);
-		c.gridy++;	phone2Field = new FormField();	
-					formPanel.add(phone2Field, c);
-		c.gridy++;	faxField = new FormField();	
-					formPanel.add(faxField, c);
-		c.gridy++;	descField = new FormField();	
-					formPanel.add(descField, c);
-		
-		return formPanel;
+	protected JPanel createAddForm() {
+		return new Form();
+	}
+	
+	@Override
+	protected JPanel createModifyForm() {
+		modifyform = new ModifyForm();
+		return modifyform;
 	}
 
 	@Override
 	protected void setForm(Object selected) {
-		// TODO Auto-generated method stub
-		ResultSet results = Database.query(String.format("SELECT * FROM expedisi WHERE `expedisicode`='%s'", selected));
-		try {
-			while (results.next()) {	// TODO
-				expeditioncodeField.setText(results.getString(1));
-				expeditionnameField.setText(results.getString(2));
-				routenameField.setText(results.getString(3));
-				addressField.setText(results.getString(4));
-				phone1Field.setText(results.getString(5));
-				phone2Field.setText(results.getString(6));
-				faxField.setText(results.getString(7));
-				descField.setText(results.getString(8));
-			}
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-	}
-
-	@Override
-	protected void onAdd() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void onModify() {
-		// TODO Auto-generated method stub
-		
+		modifyform.setForm(selected);
 	}
 
 	@Override
 	protected void onDelete(Object selected) {
-		// TODO Auto-generated method stub
 		
 	}
 }

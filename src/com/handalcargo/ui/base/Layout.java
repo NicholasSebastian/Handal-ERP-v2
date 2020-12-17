@@ -15,10 +15,9 @@ import com.handalcargo.ui.components.ScrollPanel;
 public abstract class Layout extends JPanel implements Updateable {
 
 	protected abstract TableModel setTableModel(String filter);
-	protected abstract JPanel createForm();
+	protected abstract JPanel createAddForm();
+	protected abstract JPanel createModifyForm();
 	protected abstract void setForm(Object selected);
-	protected abstract void onAdd();
-	protected abstract void onModify();
 	protected abstract void onDelete(Object selected);
 	
 	protected JPanel contentPanel;
@@ -57,8 +56,8 @@ public abstract class Layout extends JPanel implements Updateable {
 		
 		// Form pages
 		contentPanel.add(new Overview(), "Overview");
-		contentPanel.add(new FormPane(createForm(), true), "Add");
-		contentPanel.add(new FormPane(createForm(), false), "Modify");
+		contentPanel.add(new ScrollPanel(createAddForm()), "Add");
+		contentPanel.add(new ScrollPanel(createModifyForm()), "Modify");
 	}
 	
 	@Override 
@@ -173,42 +172,6 @@ public abstract class Layout extends JPanel implements Updateable {
 					"Delete Record",
 					JOptionPane.ERROR_MESSAGE);
 			}
-		}
-	}
-	
-	class FormPane extends ScrollPanel {
-		private FormPane(JPanel content, boolean a) {
-			super(content);
-			
-			JPanel finishPanel = new JPanel();
-			finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			finishPanel.setOpaque(false);
-			
-			finishPanel.add(
-				new Button(
-					"Save", 
-					Styles.green, Styles.greenHover, 
-					new Dimension(100, 40), true, e -> {
-						if (a) onAdd(); 
-						else onModify();
-						refresh();
-					}
-			));
-			
-			finishPanel.add(
-				new Button(
-					"Cancel", 
-					Styles.red, Styles.redHover, 
-					new Dimension(100, 40), true, e -> {
-						displayPage("Overview");
-						refresh();
-					}
-			));
-			
-			GridBagConstraints c = ((GridBagLayout) content.getLayout()).getConstraints(content.getComponent(content.getComponentCount() - 1));
-			c.gridx = 1;	c.gridy++;	
-			c.gridwidth = 2;
-			content.add(finishPanel, c);
 		}
 	}
 }

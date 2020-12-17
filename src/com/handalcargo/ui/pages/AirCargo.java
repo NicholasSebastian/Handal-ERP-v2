@@ -11,6 +11,8 @@ import javax.swing.table.TableModel;
 import com.handalcargo.ui.base.Layout;
 
 public class AirCargo extends Layout {
+	
+	private ModifyForm modifyForm;
 
 	public AirCargo() {
 		super("Air Cargo");
@@ -25,39 +27,42 @@ public class AirCargo extends Layout {
 		
 		return new DefaultTableModel();
 	}
+	
+	class Form extends JPanel {
+		
+		public Form() {
+			setLayout(new GridBagLayout());
+			
+			GridBagConstraints c = new GridBagConstraints();
+			add(new JLabel("Hello"), c);
+		}
+	}
+	
+	class ModifyForm extends Form {
+		
+		public void setForm(Object selected) {
+			
+		}
+	}
 
 	@Override
-	protected JPanel createForm() {
-		JPanel formPanel = new JPanel();
-		formPanel.setLayout(new GridBagLayout());
-		
-		GridBagConstraints c = new GridBagConstraints();
-		formPanel.add(new JLabel("Hello"), c);
-		
-		return formPanel;
+	protected JPanel createAddForm() {
+		return new Form();
+	}
+
+	@Override
+	protected JPanel createModifyForm() {
+		modifyForm = new ModifyForm();
+		return modifyForm;
 	}
 
 	@Override
 	protected void setForm(Object selected) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void onAdd() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void onModify() {
-		// TODO Auto-generated method stub
-		
+		modifyForm.setForm(selected);
 	}
 
 	@Override
 	protected void onDelete(Object selected) {
-		// TODO Auto-generated method stub
 		
 	}
 }

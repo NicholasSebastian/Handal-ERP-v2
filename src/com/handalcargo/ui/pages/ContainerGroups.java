@@ -9,15 +9,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import com.handalcargo.core.Database;
+import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.base.Updateable;
+import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.FormField;
 
 public class ContainerGroups extends Layout {
 	
-	private JTextField codeField;
-	private JTextField descField;
-	private JTextField sizeField;
+	private ModifyForm modifyForm;
 
 	public ContainerGroups() {
 		super("Container Groups");
@@ -54,75 +54,112 @@ public class ContainerGroups extends Layout {
 		
 		return new DefaultTableModel(dataArray, columns);
 	}
+	
+	class Form extends JPanel {
+		
+		protected JTextField codeField;
+		protected JTextField descField;
+		protected JTextField sizeField;
+		
+		public Form() {
+			setBackground(Color.WHITE);
+			setLayout(new GridBagLayout());
+			
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(5, 8, 5, 8);
+			
+			// Labels
+			c.gridx = 0;	c.gridy = 0;
+			c.anchor = GridBagConstraints.LINE_END;
+					
+			c.gridy++;	add(new JLabel("Container Code"), c);
+			c.gridy++;	add(new JLabel("Description"), c);
+			c.gridy++;	add(new JLabel("Container Size"), c);
+			
+			// Fields
+			c.gridx = 1;	c.weightx = 1.0;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridy = 0;
+			
+			c.gridy++;	codeField = new FormField();	
+						add(codeField, c);
+						
+			c.gridy++;	descField = new FormField();	
+						add(descField, c);
+						
+			c.gridy++;	sizeField = new FormField();	
+						add(sizeField, c);
+						
+			JPanel finishPanel = new JPanel();
+			finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			finishPanel.setOpaque(false);
+			
+			finishPanel.add(
+				new Button("Save", Styles.green, Styles.greenHover, new Dimension(100, 40), true, 
+				e -> {
+					onSave();
+					refresh();
+				}
+			));
+			
+			finishPanel.add(
+				new Button("Cancel", Styles.red, Styles.redHover, new Dimension(100, 40), true, 
+				e -> {
+					displayPage("Overview");
+					refresh();
+				}
+			));
+			
+			c.gridx = 1;	c.gridwidth = 2;
+			c.gridy++;	add(finishPanel, c);
+		}
+		
+		public void onSave() {
+			System.out.println("from add form: " + codeField.getText());
+		}
+	}
+	
+	class ModifyForm extends Form {
+		
+		public void setForm(Object selected) {
+			ResultSet results = Database.query(String.format("SELECT * FROM kelcontainer WHERE `containercode`='%s'", selected));
+			try {
+				while (results.next()) {
+					codeField.setText(results.getString(1));
+					descField.setText(results.getString(2));
+					sizeField.setText(results.getString(3));
+				}
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		@Override
+		public void onSave() {
+			System.out.println("from modify form: " + codeField.getText());
+		}
+	}
 
 	@Override
-	protected JPanel createForm() {
-		// TODO Auto-generated method stub
-		JPanel formPanel = new JPanel();
-		formPanel.setBackground(Color.WHITE);
-		formPanel.setLayout(new GridBagLayout());
-		
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(5, 8, 5, 8);
-		
-		// Labels
-		c.gridx = 0;	c.gridy = 0;
-		c.anchor = GridBagConstraints.LINE_END;
-				
-		c.gridy++;	formPanel.add(new JLabel("Container Code"), c);
-		c.gridy++;	formPanel.add(new JLabel("Description"), c);
-		c.gridy++;	formPanel.add(new JLabel("Container Size"), c);
-		
-		// Fields
-		c.gridx = 1;	c.weightx = 1.0;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.gridy = 0;
-		
-		c.gridy++;	codeField = new FormField();	
-					formPanel.add(codeField, c);
-					
-		c.gridy++;	descField = new FormField();	
-					formPanel.add(descField, c);
-					
-		c.gridy++;	sizeField = new FormField();	
-					formPanel.add(sizeField, c);
-		
-		return formPanel;
+	protected JPanel createAddForm() {
+		return new Form();
+	}
+
+	@Override
+	protected JPanel createModifyForm() {
+		modifyForm =  new ModifyForm();
+		return modifyForm;
 	}
 
 	@Override
 	protected void setForm(Object selected) {
-		// TODO Auto-generated method stub
-		ResultSet results = Database.query(String.format("SELECT * FROM kelcontainer WHERE `containercode`='%s'", selected));
-		try {
-			while (results.next()) {	// TODO
-				codeField.setText(results.getString(1));
-				descField.setText(results.getString(2));
-				sizeField.setText(results.getString(3));
-			}
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-	}
-
-	@Override
-	protected void onAdd() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void onModify() {
-		// TODO Auto-generated method stub
-		
+		modifyForm.setForm(selected);
 	}
 
 	@Override
 	protected void onDelete(Object selected) {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -2,6 +2,7 @@ package com.handalcargo.ui.pages;
 
 import java.awt.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import javax.swing.table.JTableHeader;
 import com.handalcargo.core.Database;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
+import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.DatePicker;
 import com.handalcargo.ui.components.FormField;
 import com.handalcargo.ui.components.IconButton;
@@ -21,43 +23,7 @@ import com.handalcargo.ui.components.Table;
 
 public class Customers extends Layout {
 	
-	private JTextField codeField;
-	private JTextField nameField;
-	private JTextField companyField;
-	private JTextArea address1Field;
-	private JTextField city1Field;
-	private JTextField postalcode1Field;
-	private JTextArea address2Field;
-	private JTextField city2Field;
-	private JTextField postalcode2Field;
-	private JTextField officephone1Field;
-	private JTextField officephone2Field;
-	private JTextField mobilephone1Field;
-	private JTextField mobilephone2Field;
-	private JTextField homephoneField;
-	private JTextField faxField;
-	private JTextField emailField;
-	private JTextField contact1Field;
-	private JTextField contact2Field;
-	private JTextField sizedescField;
-	private JTextField courierdescField;
-	private JTextArea othersField;
-	private DatePicker dateaddedField;
-	private SliderButton statusField;
-	private JTextField markingField;
-	private JButton courierButton;
-	private JButton markingButton;
-	private JTable markingTable;
-	private JButton historyButton;
-	private JButton deleteButton;
-	private JTextField packetdescField;
-	private JButton packetButton;
-	private JComboBox<String> byField;
-	private JTextField rutedescField;
-	private JButton ruteButton;
-	private JTextField priceField;
-	private JTable packetTable;
-	private JButton packetdeleteButton;
+	private ModifyForm modifyForm;
 	
 	public Customers() {
 		super("Customers");
@@ -109,205 +75,302 @@ public class Customers extends Layout {
 		return new DefaultTableModel(dataArray, columns);
 	}
 	
-	@Override
-	protected JPanel createForm() {
-		JPanel formPanel = new JPanel();
-		formPanel.setBackground(Color.WHITE);
-		formPanel.setLayout(new GridBagLayout());
+	class Form extends JPanel {
 		
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(5, 8, 5, 8);
+		protected JTextField codeField;
+		protected JTextField nameField;
+		protected JTextField companyField;
+		protected JTextArea address1Field;
+		protected JTextField city1Field;
+		protected JTextField postalcode1Field;
+		protected JTextArea address2Field;
+		protected JTextField city2Field;
+		protected JTextField postalcode2Field;
+		protected JTextField officephone1Field;
+		protected JTextField officephone2Field;
+		protected JTextField mobilephone1Field;
+		protected JTextField mobilephone2Field;
+		protected JTextField homephoneField;
+		protected JTextField faxField;
+		protected JTextField emailField;
+		protected JTextField contact1Field;
+		protected JTextField contact2Field;
+		protected JTextField sizedescField;
+		protected JTextField courierdescField;
+		protected JTextArea othersField;
+		protected DatePicker dateaddedField;
+		protected SliderButton statusField;
+		protected JTextField markingField;
+		protected JButton courierButton;
+		protected JButton markingButton;
+		protected JTable markingTable;
+		protected JButton historyButton;
+		protected JButton deleteButton;
+		protected JTextField packetdescField;
+		protected JButton packetButton;
+		protected JComboBox<String> byField;
+		protected JTextField rutedescField;
+		protected JButton ruteButton;
+		protected JTextField priceField;
+		protected JTable packetTable;
+		protected JButton packetdeleteButton;
 		
-		// Labels
-		c.gridx = 0;	c.gridy = 0;
-		c.anchor = GridBagConstraints.LINE_END;
-		
-		c.gridy++;	formPanel.add(new JLabel("Code"), c);
-		c.gridy++;	formPanel.add(new JLabel("Name"), c);
-		c.gridy++;	formPanel.add(new JLabel("Company"), c);
-		c.gridy++;	formPanel.add(new JLabel("Address 1"), c);
-		c.gridy++;	formPanel.add(new JLabel("City"), c);
-		c.gridy++;	formPanel.add(new JLabel("Postal Code"), c);
-		c.gridy++;	formPanel.add(new JLabel("Address 2"), c);
-		c.gridy++;	formPanel.add(new JLabel("City"), c);
-		c.gridy++;	formPanel.add(new JLabel("Postal Code"), c);
-		c.gridy++;	formPanel.add(new JLabel("Office Phone 1"), c);
-		c.gridy++;	formPanel.add(new JLabel("Office Phone 2"), c);
-		c.gridy++;	formPanel.add(new JLabel("Mobile Phone 1"), c);
-		c.gridy++;	formPanel.add(new JLabel("Mobile Phone 2"), c);
-		c.gridy++;	formPanel.add(new JLabel("Home Phone"), c);
-		c.gridy++;	formPanel.add(new JLabel("Fax"), c);
-		c.gridy++;	formPanel.add(new JLabel("Email"), c);
-		c.gridy++;	formPanel.add(new JLabel("Contact Person 1"), c);
-		c.gridy++;	formPanel.add(new JLabel("Contact Person 2"), c);
-		c.gridy++;	formPanel.add(new JLabel("Size Description"), c);
-		c.gridy++;	formPanel.add(new JLabel("Courier Description"), c);
-		c.gridy++;	formPanel.add(new JLabel("Others"), c);
-		c.gridy++;	formPanel.add(new JLabel("Date Added"), c);
-		c.gridy++;	formPanel.add(new JLabel("Status"), c);
-		c.gridy++;	formPanel.add(new JLabel("Marking"), c);
-		c.gridy = 27; formPanel.add(new JLabel("Packet Description"), c);
-		c.gridy = 28; formPanel.add(new JLabel("By"), c);
-		c.gridy = 29; formPanel.add(new JLabel("Route"), c);
-		c.gridy = 30; formPanel.add(new JLabel("Price"), c);
+		public Form() {
+			setBackground(Color.WHITE);
+			setLayout(new GridBagLayout());
+			
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(5, 8, 5, 8);
+			
+			// Labels
+			c.gridx = 0;	c.gridy = 0;
+			c.anchor = GridBagConstraints.LINE_END;
+			
+			c.gridy++;	add(new JLabel("Code"), c);
+			c.gridy++;	add(new JLabel("Name"), c);
+			c.gridy++;	add(new JLabel("Company"), c);
+			c.gridy++;	add(new JLabel("Address 1"), c);
+			c.gridy++;	add(new JLabel("City"), c);
+			c.gridy++;	add(new JLabel("Postal Code"), c);
+			c.gridy++;	add(new JLabel("Address 2"), c);
+			c.gridy++;	add(new JLabel("City"), c);
+			c.gridy++;	add(new JLabel("Postal Code"), c);
+			c.gridy++;	add(new JLabel("Office Phone 1"), c);
+			c.gridy++;	add(new JLabel("Office Phone 2"), c);
+			c.gridy++;	add(new JLabel("Mobile Phone 1"), c);
+			c.gridy++;	add(new JLabel("Mobile Phone 2"), c);
+			c.gridy++;	add(new JLabel("Home Phone"), c);
+			c.gridy++;	add(new JLabel("Fax"), c);
+			c.gridy++;	add(new JLabel("Email"), c);
+			c.gridy++;	add(new JLabel("Contact Person 1"), c);
+			c.gridy++;	add(new JLabel("Contact Person 2"), c);
+			c.gridy++;	add(new JLabel("Size Description"), c);
+			c.gridy++;	add(new JLabel("Courier Description"), c);
+			c.gridy++;	add(new JLabel("Others"), c);
+			c.gridy++;	add(new JLabel("Date Added"), c);
+			c.gridy++;	add(new JLabel("Status"), c);
+			c.gridy++;	add(new JLabel("Marking"), c);
+			c.gridy = 27; add(new JLabel("Packet Description"), c);
+			c.gridy = 28; add(new JLabel("By"), c);
+			c.gridy = 29; add(new JLabel("Route"), c);
+			c.gridy = 30; add(new JLabel("Price"), c);
 
-		
-		// Fields
-		c.gridx = 1;	c.weightx = 1.0;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.gridy = 0;
-		
-		c.gridy++;	codeField = new FormField();	
-					formPanel.add(codeField, c);
-		c.gridy++;	nameField = new FormField();	
-					formPanel.add(nameField, c);
-		c.gridy++;	companyField = new FormField();	
-					formPanel.add(companyField, c);
-		c.gridy++;	address1Field = new JTextArea();	
-					formPanel.add(address1Field, c);
-		c.gridy++;	city1Field = new FormField();	
-					formPanel.add(city1Field, c);
-		c.gridy++;	postalcode1Field = new FormField();	
-					formPanel.add(postalcode1Field, c);
-		c.gridy++;	address2Field = new JTextArea();	
-					formPanel.add(address2Field, c);
-		c.gridy++;	city2Field = new FormField();	
-					formPanel.add(city2Field, c);
-		c.gridy++;	postalcode2Field = new FormField();	
-					formPanel.add(postalcode2Field, c);
-		c.gridy++;	officephone1Field = new FormField();	
-					formPanel.add(officephone1Field, c);
-		c.gridy++;	officephone2Field = new FormField();	
-					formPanel.add(officephone2Field, c);
-		c.gridy++;	mobilephone1Field = new FormField();	
-					formPanel.add(mobilephone1Field, c);
-		c.gridy++;	mobilephone2Field = new FormField();	
-					formPanel.add(mobilephone2Field, c);
-		c.gridy++;	homephoneField = new FormField();	
-					formPanel.add(homephoneField, c);
-		c.gridy++;	faxField = new FormField();	
-					formPanel.add(faxField, c);
-		c.gridy++;	emailField = new FormField();	
-					formPanel.add(emailField, c);
-		c.gridy++;	contact1Field = new FormField();	
-					formPanel.add(contact1Field, c);
-		c.gridy++;	contact2Field = new FormField();	
-					formPanel.add(contact2Field, c);
-		c.gridy++;	sizedescField = new FormField();	
-					formPanel.add(sizedescField, c);
-		c.gridy++;	courierdescField = new FormField();	
-					formPanel.add(courierdescField, c);
-		c.gridx = 2;	c.weightx = 0.0;
-					courierButton = new IconButton("/add.png", Styles.green, Styles.greenHover, 
-						new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
-							System.out.println("clicked on it");
-						});
-					formPanel.add(courierButton, c);
-		c.gridx = 1;	c.weightx = 1.0;
-		c.gridy++;	othersField = new JTextArea();	
-					formPanel.add(othersField, c);
-		c.gridy++;	dateaddedField = new DatePicker();	
-					formPanel.add(dateaddedField, c);
-		c.gridy++;	statusField = new SliderButton();	
-					formPanel.add(statusField, c);
-		c.gridy++;	markingField = new FormField();	
-					formPanel.add(markingField, c);
-		c.gridx = 2;	c.weightx = 0.0;
-					markingButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
-						new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
-							System.out.println("clicked on it");
-						});
-					formPanel.add(markingButton, c);
-		c.gridx = 1;    c.weightx = 1.0;	c.gridwidth = 1;
-		c.gridy++;
-					markingTable = new Table();
-					markingTable.setModel(new DefaultTableModel(new String[] {"Markings"}, 0));
-					markingTable.setRowHeight(Styles.tableRowHeight);
+			
+			// Fields
+			c.gridx = 1;	c.weightx = 1.0;	c.gridwidth = 2;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridy = 0;
+			
+			c.gridy++;	codeField = new FormField();	
+						add(codeField, c);
+			c.gridy++;	nameField = new FormField();	
+						add(nameField, c);
+			c.gridy++;	companyField = new FormField();	
+						add(companyField, c);
+			c.gridy++;	address1Field = new JTextArea();	
+						add(address1Field, c);
+			c.gridy++;	city1Field = new FormField();	
+						add(city1Field, c);
+			c.gridy++;	postalcode1Field = new FormField();	
+						add(postalcode1Field, c);
+			c.gridy++;	address2Field = new JTextArea();	
+						add(address2Field, c);
+			c.gridy++;	city2Field = new FormField();	
+						add(city2Field, c);
+			c.gridy++;	postalcode2Field = new FormField();	
+						add(postalcode2Field, c);
+			c.gridy++;	officephone1Field = new FormField();	
+						add(officephone1Field, c);
+			c.gridy++;	officephone2Field = new FormField();	
+						add(officephone2Field, c);
+			c.gridy++;	mobilephone1Field = new FormField();	
+						add(mobilephone1Field, c);
+			c.gridy++;	mobilephone2Field = new FormField();	
+						add(mobilephone2Field, c);
+			c.gridy++;	homephoneField = new FormField();	
+						add(homephoneField, c);
+			c.gridy++;	faxField = new FormField();	
+						add(faxField, c);
+			c.gridy++;	emailField = new FormField();	
+						add(emailField, c);
+			c.gridy++;	contact1Field = new FormField();	
+						add(contact1Field, c);
+			c.gridy++;	contact2Field = new FormField();	
+						add(contact2Field, c);
+			c.gridy++;	sizedescField = new FormField();	
+						add(sizedescField, c);
+			c.gridwidth = 1;
+			c.gridy++;	courierdescField = new FormField();	
+						add(courierdescField, c);
+			c.gridx = 2;	c.weightx = 0.0;
+						courierButton = new IconButton("/add.png", Styles.green, Styles.greenHover, 
+							new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
+								System.out.println("clicked on it");
+							});
+						add(courierButton, c);
+			c.gridx = 1;	c.weightx = 1.0;
+			c.gridy++;	othersField = new JTextArea();	
+						add(othersField, c);
+			c.gridy++;	dateaddedField = new DatePicker();	
+						add(dateaddedField, c);
+			c.gridy++;	statusField = new SliderButton();	
+						add(statusField, c);
+			c.gridy++;	markingField = new FormField();	
+						add(markingField, c);
+			c.gridx = 2;	c.weightx = 0.0;
+						markingButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
+							new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
+								System.out.println("clicked on it");
+							});
+						add(markingButton, c);
+			c.gridx = 1;    c.weightx = 1.0;	c.gridwidth = 2;
+			c.gridy++;
+						markingTable = new Table();
+						markingTable.setModel(new DefaultTableModel(new String[] {"Markings"}, 0));
+						markingTable.setRowHeight(Styles.tableRowHeight);
 
-					JScrollPane scrollPanel = new ScrollPanel();
-					scrollPanel.setViewportView(markingTable);
-					scrollPanel.setPreferredSize(new Dimension(0, Styles.innerTableHeight));
-					
-					formPanel.add(scrollPanel, c);
-		c.gridy++;
-					JPanel markingButtons = new JPanel();
-					markingButtons.setLayout(new FlowLayout(FlowLayout.LEFT));
-					markingButtons.setOpaque(false);
-					formPanel.add(markingButtons, c);
-		
-					historyButton = new IconButton("/history.png", Styles.yellow, Styles.yellowHover, 
-						new Dimension(100, Styles.buttonSize), e -> {
-							System.out.println("clicked on it");
-						});
-					historyButton.setText("History");
-					markingButtons.add(historyButton);
-					
-					deleteButton = new IconButton("/delete.png", Styles.red, Styles.redHover,
-							new Dimension(100, Styles.buttonSize), e -> {
-							System.out.println("clicked on it");
-						});
-					deleteButton.setText("Delete");
-					markingButtons.add(deleteButton);
-		c.gridx = 1;
-		c.gridy++;
-					packetdescField = new FormField();	
-					formPanel.add(packetdescField, c);
-		c.gridx = 2;	c.weightx = 0.0;	
-					packetButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
-						new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
-							System.out.println("clicked on it");
-						});
-					formPanel.add(packetButton, c);
-		c.gridx = 1;	c.weightx = 1.0;
-		c.gridy++;
-					byField = new JComboBox<String>(new String[] {"Air", "Sea"});
-					formPanel.add(byField, c);
-		c.gridy++;
-					rutedescField = new FormField();	
-					formPanel.add(rutedescField, c);
-		c.gridx = 2;	c.weightx = 0.0;	
-					ruteButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
-						new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
-							System.out.println("clicked on it");
-						});
-					formPanel.add(ruteButton, c);
-		c.gridx = 1;	c.weightx = 1.0;
-		c.gridy++;
-					priceField = new FormField();	
-					formPanel.add(priceField, c);			
-		c.gridy++;
-		c.gridwidth = 1;
-					packetTable = new Table();
-					packetTable.setModel(new DefaultTableModel(new String[] {"Date", "Packet Description", "By", "Route", "Price", "Final Price", "User"}, 0));
-					packetTable.setRowHeight(Styles.tableRowHeight);
-
-					JScrollPane packetscrollPanel = new ScrollPanel();
-					packetscrollPanel.setViewportView(packetTable);
-					packetscrollPanel.setPreferredSize(new Dimension(0, Styles.innerTableHeight));
-		
-					formPanel.add(packetscrollPanel, c);
-		c.gridy++;
-					JPanel packetButtons = new JPanel();
-					packetButtons.setLayout(new FlowLayout(FlowLayout.LEFT));
-					packetButtons.setOpaque(false);
-					formPanel.add(packetButtons, c);
-
-					packetdeleteButton = new IconButton("/delete.png", Styles.red, Styles.redHover, 
+						JScrollPane scrollPanel = new ScrollPanel();
+						scrollPanel.setViewportView(markingTable);
+						scrollPanel.setPreferredSize(new Dimension(0, Styles.innerTableHeight));
+						
+						add(scrollPanel, c);
+			c.gridy++;	c.gridwidth = 1;
+						JPanel markingButtons = new JPanel();
+						markingButtons.setLayout(new FlowLayout(FlowLayout.LEFT));
+						markingButtons.setOpaque(false);
+						add(markingButtons, c);
+			
+						historyButton = new IconButton("/history.png", Styles.yellow, Styles.yellowHover, 
 							new Dimension(100, Styles.buttonSize), e -> {
 								System.out.println("clicked on it");
 							});
-					packetdeleteButton.setText("Delete");
-					packetButtons.add(packetdeleteButton);
-					
-		return formPanel;
+						historyButton.setText("History");
+						markingButtons.add(historyButton);
+						
+						deleteButton = new IconButton("/delete.png", Styles.red, Styles.redHover,
+								new Dimension(100, Styles.buttonSize), e -> {
+								System.out.println("clicked on it");
+							});
+						deleteButton.setText("Delete");
+						markingButtons.add(deleteButton);
+			c.gridx = 1;
+			c.gridy++;
+						packetdescField = new FormField();	
+						add(packetdescField, c);
+			c.gridx = 2;	c.weightx = 0.0;	
+						packetButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
+							new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
+								System.out.println("clicked on it");
+							});
+						add(packetButton, c);
+			c.gridx = 1;	c.weightx = 1.0;	c.gridwidth = 2;
+			c.gridy++;
+						byField = new JComboBox<String>(new String[] {"Air", "Sea"});
+						add(byField, c);
+			c.gridy++;	c.gridwidth = 1;
+						rutedescField = new FormField();	
+						add(rutedescField, c);
+			c.gridx = 2;	c.weightx = 0.0;	
+						ruteButton = new IconButton("/add.png", Styles.green, Styles.greenHover,
+							new Dimension(Styles.buttonSize, Styles.buttonSize), e -> {
+								System.out.println("clicked on it");
+							});
+						add(ruteButton, c);
+			c.gridx = 1;	c.weightx = 1.0;	c.gridwidth = 2;
+			c.gridy++;
+						priceField = new FormField();	
+						add(priceField, c);			
+			c.gridy++;
+						packetTable = new Table();
+						packetTable.setModel(new DefaultTableModel(new String[] {"Date", "Packet Description", "By", "Route", "Price", "Final Price", "User"}, 0));
+						packetTable.setRowHeight(Styles.tableRowHeight);
+
+						JScrollPane packetscrollPanel = new ScrollPanel();
+						packetscrollPanel.setViewportView(packetTable);
+						packetscrollPanel.setPreferredSize(new Dimension(0, Styles.innerTableHeight));
+			
+						add(packetscrollPanel, c);
+
+			c.gridwidth = 1;
+			c.gridy++;
+						JPanel packetButtons = new JPanel();
+						packetButtons.setLayout(new FlowLayout(FlowLayout.LEFT));
+						packetButtons.setOpaque(false);
+						add(packetButtons, c);
+
+						packetdeleteButton = new IconButton("/delete.png", Styles.red, Styles.redHover, 
+								new Dimension(100, Styles.buttonSize), e -> {
+									System.out.println("clicked on it");
+								});
+						packetdeleteButton.setText("Delete");
+						packetButtons.add(packetdeleteButton);
+						
+			JPanel finishPanel = new JPanel();
+			finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			finishPanel.setOpaque(false);
+			finishPanel.add(
+					new Button("Save", Styles.green, Styles.greenHover, new Dimension(100, 40), true, 
+					e -> {
+						onSave();
+						refresh();
+					}
+			));
+							
+			finishPanel.add(
+					new Button("Cancel", Styles.red, Styles.redHover, new Dimension(100, 40), true, 
+					e -> {
+						displayPage("Overview");
+						refresh();
+					}
+			));
+							
+			c.gridx = 1;	c.gridwidth = 2;
+			c.gridy++;	add(finishPanel, c);
+		}
+						
+		public void onSave() {
+			Database.update("INSERT INTO customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+			statement -> {
+			try {
+				statement.setInt(1, Integer.parseInt(codeField.getText()));
+				statement.setString(2, nameField.getText());
+				statement.setString(3, companyField.getText());
+				statement.setString(4, address1Field.getText());
+				statement.setString(5, city1Field.getText());
+				statement.setInt(6, Integer.valueOf(postalcode1Field.getText()));
+				statement.setString(7, address2Field.getText());
+				statement.setString(8, city2Field.getText());
+				statement.setInt(9, Integer.valueOf(postalcode2Field.getText()));
+				statement.setString(10, officephone1Field.getText());
+				statement.setString(11, officephone2Field.getText());
+				statement.setString(12, mobilephone1Field.getText());
+				statement.setString(13, mobilephone2Field.getText());
+				statement.setString(14, homephoneField.getText());
+				statement.setString(15, faxField.getText());
+				statement.setString(16, emailField.getText());
+				statement.setString(17, contact1Field.getText());
+				statement.setString(18, contact2Field.getText());
+				statement.setString(19, sizedescField.getText());
+				statement.setString(20, courierdescField.getText());
+				statement.setString(21, othersField.getText());
+				statement.setDate(22, dateaddedField.getDate());
+				statement.setBoolean(23, statusField.isSelected());
+			} 
+			catch (NumberFormatException | SQLException e) {
+				e.printStackTrace();
+			}
+		});
+			System.out.println("Record Added");
+		}
 	}
 	
-	@Override
-	protected void setForm(Object selected) {
-		ResultSet results = Database.query(String.format("SELECT * FROM customers WHERE `customerid`='%s'", selected));
-		try {
-			while (results.next()) {	// TODO
+	class ModifyForm extends Form {
+		
+		public void setForm(Object selected) {
+			ResultSet results = Database.query(String.format("SELECT * FROM customers WHERE `customerid`='%s'", selected));
+			try {
+				results.next();
 				codeField.setText(results.getString(1));
 				nameField.setText(results.getString(2));
 				companyField.setText(results.getString(3));
@@ -327,26 +390,64 @@ public class Customers extends Layout {
 				contact1Field.setText(results.getString(17));
 				contact2Field.setText(results.getString(18));
 				sizedescField.setText(results.getString(19));
-				//courierdescField for getString(20) is here but it should be taken from 'expedisi' table
+				courierdescField.setText(results.getString(20)); 
 				othersField.setText(results.getString(21));
 				dateaddedField.setDate(results.getDate(22)); 
 				statusField.setSelected(results.getBoolean(23));
 			}
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 	
 	@Override
-	public void onAdd() {
-		
+	protected JPanel createAddForm() {
+		return new Form();
 	}
 	
 	@Override
-	public void onModify() {
-		
+	protected JPanel createModifyForm() {
+		modifyForm = new ModifyForm();
+		return modifyForm;
 	}
+	
+	@Override
+	protected void setForm(Object selected) {
+		modifyForm.setForm(selected);
+	}
+	
+//	Database.update("INSERT INTO customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+//			statement -> {
+//			try {
+//				statement.setInt(1, Integer.parseInt(codeField.getText()));
+//				statement.setString(2, nameField.getText());
+//				statement.setString(3, companyField.getText());
+//				statement.setString(4, address1Field.getText());
+//				statement.setString(5, city1Field.getText());
+//				statement.setInt(6, Integer.valueOf(postalcode1Field.getText()));
+//				statement.setString(7, address2Field.getText());
+//				statement.setString(8, city2Field.getText());
+//				statement.setInt(9, Integer.valueOf(postalcode2Field.getText()));
+//				statement.setString(10, officephone1Field.getText());
+//				statement.setString(11, officephone2Field.getText());
+//				statement.setString(12, mobilephone1Field.getText());
+//				statement.setString(13, mobilephone2Field.getText());
+//				statement.setString(14, homephoneField.getText());
+//				statement.setString(15, faxField.getText());
+//				statement.setString(16, emailField.getText());
+//				statement.setString(17, contact1Field.getText());
+//				statement.setString(18, contact2Field.getText());
+//				statement.setString(19, sizedescField.getText());
+//				statement.setString(20, courierdescField.getText());
+//				statement.setString(21, othersField.getText());
+//				statement.setDate(22, dateaddedField.getDate());
+//				statement.setBoolean(23, statusField.isSelected());
+//			} 
+//			catch (NumberFormatException | SQLException e) {
+//				e.printStackTrace();
+//			}
+//		});
 	
 	@Override
 	public void onDelete(Object selected) {
