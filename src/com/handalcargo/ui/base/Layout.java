@@ -1,11 +1,10 @@
 package com.handalcargo.ui.base;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.function.Consumer;
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.IconButton;
@@ -14,18 +13,28 @@ import com.handalcargo.ui.components.ScrollPanel;
 
 public abstract class Layout extends JPanel implements Updateable {
 
-	protected abstract TableModel setTableModel(String filter);
-	protected abstract JPanel createAddForm();
-	protected abstract JPanel createModifyForm();
-	protected abstract void setForm(Object selected);
 	protected abstract void onDelete(Object selected);
+	protected abstract TableModel setTableModel(String filter);
 	
 	protected JPanel contentPanel;
 	private CardLayout content;
 	private JTable table;
+	private Consumer<Object> setForm;
 	
 	protected void displayPage(String pageName) {
 		content.show(contentPanel, pageName);
+	}
+	
+	protected void setAddForm(JPanel addForm) {
+		contentPanel.add(new ScrollPanel(addForm), "Add");
+	}
+	
+	protected void setModifyForm(JPanel modifyForm) {
+		contentPanel.add(new ScrollPanel(modifyForm), "Modify");
+	}
+	
+	protected void setModifyFormContent(Consumer<Object> setForm) {
+		this.setForm = setForm;
 	}
 	
 	public Layout(String title) {
@@ -56,8 +65,6 @@ public abstract class Layout extends JPanel implements Updateable {
 		
 		// Form pages
 		contentPanel.add(new Overview(), "Overview");
-		contentPanel.add(new ScrollPanel(createAddForm()), "Add");
-		contentPanel.add(new ScrollPanel(createModifyForm()), "Modify");
 	}
 	
 	@Override 
@@ -139,7 +146,7 @@ public abstract class Layout extends JPanel implements Updateable {
 		private void onModifyButton() {
 			int selectedRow = table.getSelectedRow();
 			if (selectedRow != -1) {
-				setForm(table.getValueAt(selectedRow, 0));
+				setForm.accept(table.getValueAt(selectedRow, 0));
 				displayPage("Modify");
 			}
 			else {
@@ -172,6 +179,26 @@ public abstract class Layout extends JPanel implements Updateable {
 					"Delete Record",
 					JOptionPane.ERROR_MESSAGE);
 			}
+		}
+	}
+	
+	public class FinishPanel extends JPanel {
+		public FinishPanel(Consumer<ActionEvent> onSave) {
+			setLayout(new FlowLayout(FlowLayout.RIGHT));
+			setOpaque(false);
+			add(new Button("Save", Styles.green, Styles.greenHover, new Dimension(100, 40), true, 
+				e -> {
+					onSave.accept(e);
+					refresh();
+				}
+			));
+							
+			add(new Button("Cancel", Styles.red, Styles.redHover, new Dimension(100, 40), true, 
+				e -> {
+					displayPage("Overview");
+					refresh();
+				}
+			));
 		}
 	}
 }

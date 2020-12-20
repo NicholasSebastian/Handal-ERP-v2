@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import com.handalcargo.ui.base.Layout;
+import com.handalcargo.ui.pages.Customers.Form;
+import com.handalcargo.ui.pages.Customers.ModifyForm;
 
 public class AirCargo extends Layout {
 	
@@ -16,12 +18,20 @@ public class AirCargo extends Layout {
 
 	public AirCargo() {
 		super("Air Cargo");
+		
+		Form addForm = new Form();
+		ModifyForm modifyForm = new ModifyForm();
+		
+		setAddForm(addForm);
+		setModifyForm(modifyForm);
+		setModifyFormContent(modifyForm::setForm);
 	}
 	
-	public void refresh() {
-		System.out.println(this.getClass().getSimpleName());
+	@Override
+	protected void onDelete(Object selected) {
+		
 	}
-
+	
 	@Override
 	protected TableModel setTableModel(String filter) {
 		
@@ -43,26 +53,5 @@ public class AirCargo extends Layout {
 		public void setForm(Object selected) {
 			
 		}
-	}
-
-	@Override
-	protected JPanel createAddForm() {
-		return new Form();
-	}
-
-	@Override
-	protected JPanel createModifyForm() {
-		modifyForm = new ModifyForm();
-		return modifyForm;
-	}
-
-	@Override
-	protected void setForm(Object selected) {
-		modifyForm.setForm(selected);
-	}
-
-	@Override
-	protected void onDelete(Object selected) {
-		
 	}
 }

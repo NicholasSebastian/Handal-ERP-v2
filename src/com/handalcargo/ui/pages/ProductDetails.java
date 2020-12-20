@@ -14,6 +14,8 @@ import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.base.Updateable;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.FormField;
+import com.handalcargo.ui.pages.AirCargo.Form;
+import com.handalcargo.ui.pages.AirCargo.ModifyForm;
 
 public class ProductDetails extends Layout{
 	
@@ -21,8 +23,20 @@ public class ProductDetails extends Layout{
 
 	public ProductDetails() {
 		super ("Product");
+		
+		Form addForm = new Form();
+		ModifyForm modifyForm = new ModifyForm();
+		
+		setAddForm(addForm);
+		setModifyForm(modifyForm);
+		setModifyFormContent(modifyForm::setForm);
 	}
 	
+	@Override
+	protected void onDelete(Object selected) {
+
+	}
+
 	@Override
 	protected TableModel setTableModel(String filter) {
 		
@@ -128,26 +142,4 @@ public class ProductDetails extends Layout{
 			}
 		}
 	}
-	
-	@Override
-	protected JPanel createAddForm() {
-		return new Form();
-	}
-	
-	@Override
-	protected JPanel createModifyForm() {
-		modifyform = new ModifyForm();
-		return modifyform;
-	}
-
-	@Override
-	protected void setForm(Object selected) {
-		modifyform.setForm(selected);
-	}
-
-	@Override
-	protected void onDelete(Object selected) {
-
-	}
-
 }

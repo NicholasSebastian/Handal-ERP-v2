@@ -14,6 +14,8 @@ import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.base.Updateable;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.FormField;
+import com.handalcargo.ui.pages.AirCargo.Form;
+import com.handalcargo.ui.pages.AirCargo.ModifyForm;
 
 public class Currencies extends Layout {
 	
@@ -21,6 +23,18 @@ public class Currencies extends Layout {
 	
 	public Currencies() {
 		super ("Currencies");
+		
+		Form addForm = new Form();
+		ModifyForm modifyForm = new ModifyForm();
+		
+		setAddForm(addForm);
+		setModifyForm(modifyForm);
+		setModifyFormContent(modifyForm::setForm);
+	}
+	
+	@Override
+	protected void onDelete(Object selected) {
+		
 	}
 	
 	@Override
@@ -133,26 +147,5 @@ public class Currencies extends Layout {
 		public void onSave() {
 			System.out.println("from modify form: " + codeField.getText());
 		}
-	}
-
-	@Override
-	protected JPanel createAddForm() {
-		return new Form();
-	}
-
-	@Override
-	protected JPanel createModifyForm() {
-		modifyForm = new ModifyForm();
-		return modifyForm;
-	}
-
-	@Override
-	protected void setForm(Object selected) {
-		modifyForm.setForm(selected);
-	}
-
-	@Override
-	protected void onDelete(Object selected) {
-		
 	}
 }

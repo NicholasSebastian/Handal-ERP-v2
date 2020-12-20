@@ -4,16 +4,12 @@ import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-
 import com.handalcargo.core.Database;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
-import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.DatePicker;
 import com.handalcargo.ui.components.FormField;
 import com.handalcargo.ui.components.IconButton;
@@ -23,10 +19,27 @@ import com.handalcargo.ui.components.Table;
 
 public class Customers extends Layout {
 	
-	private ModifyForm modifyForm;
-	
 	public Customers() {
 		super("Customers");
+
+		Form addForm = new Form();
+		ModifyForm modifyForm = new ModifyForm();
+		
+		setAddForm(addForm);
+		setModifyForm(modifyForm);
+		setModifyFormContent(modifyForm::setForm);
+	}
+	
+	@Override
+	public void onDelete(Object selected) {
+		Database.update("DELETE FROM customers WHERE customerid = ?", statement -> {
+			try {
+				statement.setString(1, selected.toString());
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 	
 	@Override
@@ -306,25 +319,7 @@ public class Customers extends Layout {
 						packetdeleteButton.setText("Delete");
 						packetButtons.add(packetdeleteButton);
 						
-			JPanel finishPanel = new JPanel();
-			finishPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			finishPanel.setOpaque(false);
-			finishPanel.add(
-					new Button("Save", Styles.green, Styles.greenHover, new Dimension(100, 40), true, 
-					e -> {
-						onSave();
-						refresh();
-					}
-			));
-							
-			finishPanel.add(
-					new Button("Cancel", Styles.red, Styles.redHover, new Dimension(100, 40), true, 
-					e -> {
-						displayPage("Overview");
-						refresh();
-					}
-			));
-							
+			JPanel finishPanel = new FinishPanel(e -> onSave());
 			c.gridx = 1;	c.gridwidth = 2;
 			c.gridy++;	add(finishPanel, c);
 		}
@@ -367,7 +362,12 @@ public class Customers extends Layout {
 	
 	class ModifyForm extends Form {
 		
+		private Object selected;
+		
 		public void setForm(Object selected) {
+			this.selected = selected;
+			codeField.setEditable(false);
+			
 			ResultSet results = Database.query(String.format("SELECT * FROM customers WHERE `customerid`='%s'", selected));
 			try {
 				results.next();
@@ -399,58 +399,42 @@ public class Customers extends Layout {
 				ex.printStackTrace();
 			}
 		}
-	}
-	
-	@Override
-	protected JPanel createAddForm() {
-		return new Form();
-	}
-	
-	@Override
-	protected JPanel createModifyForm() {
-		modifyForm = new ModifyForm();
-		return modifyForm;
-	}
-	
-	@Override
-	protected void setForm(Object selected) {
-		modifyForm.setForm(selected);
-	}
-	
-//	Database.update("INSERT INTO customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-//			statement -> {
-//			try {
-//				statement.setInt(1, Integer.parseInt(codeField.getText()));
-//				statement.setString(2, nameField.getText());
-//				statement.setString(3, companyField.getText());
-//				statement.setString(4, address1Field.getText());
-//				statement.setString(5, city1Field.getText());
-//				statement.setInt(6, Integer.valueOf(postalcode1Field.getText()));
-//				statement.setString(7, address2Field.getText());
-//				statement.setString(8, city2Field.getText());
-//				statement.setInt(9, Integer.valueOf(postalcode2Field.getText()));
-//				statement.setString(10, officephone1Field.getText());
-//				statement.setString(11, officephone2Field.getText());
-//				statement.setString(12, mobilephone1Field.getText());
-//				statement.setString(13, mobilephone2Field.getText());
-//				statement.setString(14, homephoneField.getText());
-//				statement.setString(15, faxField.getText());
-//				statement.setString(16, emailField.getText());
-//				statement.setString(17, contact1Field.getText());
-//				statement.setString(18, contact2Field.getText());
-//				statement.setString(19, sizedescField.getText());
-//				statement.setString(20, courierdescField.getText());
-//				statement.setString(21, othersField.getText());
-//				statement.setDate(22, dateaddedField.getDate());
-//				statement.setBoolean(23, statusField.isSelected());
-//			} 
-//			catch (NumberFormatException | SQLException e) {
-//				e.printStackTrace();
-//			}
-//		});
-	
-	@Override
-	public void onDelete(Object selected) {
 		
+		@Override
+		public void onSave() {
+			Database.update("UPDATE customers SET customername = ?, company = ?, address1 = ?, city1 = ?, postalcode1 = ?, address2 = ?, city2 = ?, postalcode2 = ?, officephone1 = ?, officephone2 = ?, mobilephone1= ?, mobilephone2 = ?, homephone = ?, fax = ?, email = ?, contactperson1 = ?, contactperson2 = ?, sizedesc = ?, courierdesc = ?, others = ?, dateadded = ?, status = ? WHERE customerid = ? ", 
+				statement -> {
+				try {
+					statement.setString(1, nameField.getText());
+					statement.setString(2, companyField.getText());
+					statement.setString(3, address1Field.getText());
+					statement.setString(4, city1Field.getText());
+					statement.setInt(5, Integer.valueOf(postalcode1Field.getText()));
+					statement.setString(6, address2Field.getText());
+					statement.setString(7, city2Field.getText());
+					statement.setInt(8, Integer.valueOf(postalcode2Field.getText()));
+					statement.setString(9, officephone1Field.getText());
+					statement.setString(10, officephone2Field.getText());
+					statement.setString(11, mobilephone1Field.getText());
+					statement.setString(12, mobilephone2Field.getText());
+					statement.setString(13, homephoneField.getText());
+					statement.setString(14, faxField.getText());
+					statement.setString(15, emailField.getText());
+					statement.setString(16, contact1Field.getText());
+					statement.setString(17, contact2Field.getText());
+					statement.setString(18, sizedescField.getText());
+					statement.setString(19, courierdescField.getText());
+					statement.setString(20, othersField.getText());
+					statement.setDate(21, dateaddedField.getDate());
+					statement.setBoolean(22, statusField.isSelected());
+					statement.setInt(23, Integer.valueOf(selected.toString()));
+				} 
+				catch (NumberFormatException | SQLException e) {
+					e.printStackTrace();
+				}
+			});
+			System.out.println("Record Changed");
+		}
 	}
 }
+

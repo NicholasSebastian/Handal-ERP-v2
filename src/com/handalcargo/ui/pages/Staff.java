@@ -18,6 +18,8 @@ import com.handalcargo.core.Encryption;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.components.SliderButton;
+import com.handalcargo.ui.pages.AirCargo.Form;
+import com.handalcargo.ui.pages.AirCargo.ModifyForm;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.DatePicker;
 import com.handalcargo.ui.components.FormField;
@@ -28,6 +30,26 @@ public class Staff extends Layout {
 	
 	public Staff() {
 		super("Staff");
+		
+		Form addForm = new Form();
+		ModifyForm modifyForm = new ModifyForm();
+		
+		setAddForm(addForm);
+		setModifyForm(modifyForm);
+		setModifyFormContent(modifyForm::setForm);
+	}
+	
+	@Override
+	protected void onDelete(Object selected) {
+		Database.update("DELETE FROM staff WHERE name=?", 
+			statement -> {
+				try {
+					statement.setString(1, selected.toString());
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+			});
 	}
 	
 	@Override
@@ -218,22 +240,7 @@ public class Staff extends Layout {
 			}
 		}
 	}
-	
-	@Override
-	protected JPanel createAddForm() {
-		return new Form();
-	}
-	
-	@Override
-	protected JPanel createModifyForm() {
-		modifyform = new ModifyForm();
-		return modifyform;
-	}
-	
-	@Override
-	protected void setForm(Object selected) {
-		modifyform.setForm(selected);
-	}
+}	
 	
 //	Database.update("INSERT INTO staff VALUES (?, ?, ?, ?)", statement -> {
 //		
@@ -256,16 +263,5 @@ public class Staff extends Layout {
 //				}
 //			});
 	
-	@Override
-	protected void onDelete(Object selected) {
-		Database.update("DELETE FROM staff WHERE name=?", 
-			statement -> {
-				try {
-					statement.setString(1, selected.toString());
-				} 
-				catch (SQLException e) {
-					e.printStackTrace();
-				}
-			});
-	}
-}
+	
+

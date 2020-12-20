@@ -14,6 +14,8 @@ import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.base.Updateable;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.FormField;
+import com.handalcargo.ui.pages.Customers.Form;
+import com.handalcargo.ui.pages.Customers.ModifyForm;
 
 public class ContainerGroups extends Layout {
 	
@@ -21,6 +23,18 @@ public class ContainerGroups extends Layout {
 
 	public ContainerGroups() {
 		super("Container Groups");
+		
+		Form addForm = new Form();
+		ModifyForm modifyForm = new ModifyForm();
+		
+		setAddForm(addForm);
+		setModifyForm(modifyForm);
+		setModifyFormContent(modifyForm::setForm);
+	}
+	
+	@Override
+	protected void onDelete(Object selected) {
+		
 	}
 	
 	@Override
@@ -141,26 +155,4 @@ public class ContainerGroups extends Layout {
 			System.out.println("from modify form: " + codeField.getText());
 		}
 	}
-
-	@Override
-	protected JPanel createAddForm() {
-		return new Form();
-	}
-
-	@Override
-	protected JPanel createModifyForm() {
-		modifyForm =  new ModifyForm();
-		return modifyForm;
-	}
-
-	@Override
-	protected void setForm(Object selected) {
-		modifyForm.setForm(selected);
-	}
-
-	@Override
-	protected void onDelete(Object selected) {
-		
-	}
-
 }
