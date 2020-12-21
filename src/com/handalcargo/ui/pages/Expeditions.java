@@ -2,6 +2,8 @@ package com.handalcargo.ui.pages;
 
 import java.awt.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -29,7 +31,15 @@ public class Expeditions extends Layout {
 	
 	@Override
 	protected void onDelete(Object selected) {
-		
+		Database.update("DELETE FROM expedisi WHERE expedisicode = ?", statement -> {
+			try {
+				statement.setString(1, selected.toString());
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		System.out.println("Record Deleted");
 	}
 	
 	@Override
@@ -146,12 +156,34 @@ public class Expeditions extends Layout {
 		}
 		
 		public void onSave() {
-		System.out.println("from add form: " + expeditioncodeField.getText());
+			Database.update("INSERT INTO expedisi VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+			statement -> {
+			try {
+				Database.setNumber(statement, 1, Types.INTEGER, expeditioncodeField.getText());
+				statement.setString(2, expeditionnameField.getText());		
+				statement.setString(3, routenameField.getText());	
+				statement.setString(4, addressField.getText());	
+				Database.setNumber(statement, 5, Types.INTEGER, phone1Field.getText());	
+				Database.setNumber(statement, 6, Types.INTEGER, phone2Field.getText());	
+				statement.setString(7, faxField.getText());	
+				statement.setString(8, descField.getText());	
+			} 
+			catch (NumberFormatException | SQLException e) {
+				e.printStackTrace();
+			}
+		});
+			System.out.println("Record Added");
 		}
 	}
 	
 	class ModifyForm extends Form {
+		
+		private Object selected;
+		
 		public void setForm(Object selected) {
+			this.selected = selected;
+			expeditioncodeField.setEditable(false);
+			
 			ResultSet results = Database.query(String.format("SELECT * FROM expedisi WHERE `expedisicode`='%s'", selected));
 			try {
 				while (results.next()) {	// TODO
@@ -168,6 +200,27 @@ public class Expeditions extends Layout {
 			catch (Exception ex) {
 				ex.printStackTrace();
 			}
+		}
+		
+		@Override
+		public void onSave() {
+			Database.update("UPDATE expedisi SET expedisiname = ?, rutename = ?, alamat = ?, phone1 = ?, phone2 = ?, fax = ?, keterangan = ? WHERE expedisicode = ? ", 
+				statement -> {
+				try {
+					statement.setString(1, expeditionnameField.getText());
+					statement.setString(2, routenameField.getText());
+					statement.setString(3, addressField.getText());
+					Database.setNumber(statement, 4, Types.INTEGER, phone1Field.getText());
+					Database.setNumber(statement, 5, Types.INTEGER, phone2Field.getText());
+					statement.setString(6, faxField.getText());
+					statement.setString(7, descField.getText());
+					Database.setNumber(statement, 8, Types.INTEGER, selected.toString());
+				} 
+				catch (NumberFormatException | SQLException e) {
+					e.printStackTrace();
+				}
+			});
+			System.out.println("Record Changed");
 		}
 	}
 }

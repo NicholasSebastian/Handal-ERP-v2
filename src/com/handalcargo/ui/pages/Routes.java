@@ -3,6 +3,7 @@ package com.handalcargo.ui.pages;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -129,7 +130,7 @@ public class Routes extends Layout {
 			Database.update("INSERT INTO rute VALUES (?, ?)", 
 			statement -> {
 			try {
-				statement.setInt(1, Integer.parseInt(ruteField.getText()));
+				Database.setNumber(statement, 1, Types.INTEGER, ruteField.getText());
 				statement.setString(2, descField.getText());				
 			} 
 			catch (NumberFormatException | SQLException e) {
@@ -166,7 +167,7 @@ public class Routes extends Layout {
 				statement -> {
 				try {
 					statement.setString(1, descField.getText());
-					statement.setInt(2, Integer.valueOf(selected.toString()));
+					Database.setNumber(statement, 2, Types.INTEGER, selected.toString());
 				} 
 				catch (NumberFormatException | SQLException e) {
 					e.printStackTrace();

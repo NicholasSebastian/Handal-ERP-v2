@@ -2,6 +2,8 @@ package com.handalcargo.ui.pages;
 
 import java.awt.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -27,7 +29,15 @@ public class Planes extends Layout {
 
 	@Override
 	protected void onDelete(Object selected) {
-
+		Database.update("DELETE FROM pesawat WHERE pesawatcode = ?", statement -> {
+			try {
+				statement.setString(1, selected.toString());
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		System.out.println("Record Deleted");
 	}
 	
 	@Override
@@ -117,12 +127,28 @@ public class Planes extends Layout {
 		}
 		
 		public void onSave() {
-			System.out.println("from add form: " + codeField.getText());
+			Database.update("INSERT INTO pesawat VALUES (?, ?)", 
+			statement -> {
+			try {
+				Database.setNumber(statement, 1, Types.INTEGER, codeField.getText());
+				statement.setString(2, descField.getText());				
+			} 
+			catch (NumberFormatException | SQLException e) {
+				e.printStackTrace();
+			}
+		});
+			System.out.println("Record Added");
 		}
 	}
 	
 	class ModifyForm extends Form {
+		
+		private Object selected;
+		
 		public void setForm(Object selected) {
+			this.selected = selected;
+			codeField.setEditable(false);
+			
 			ResultSet results = Database.query(String.format("SELECT * FROM pesawat WHERE `pesawatcode`='%s'", selected));
 			try {
 				while (results.next()) {	// TODO
@@ -133,6 +159,21 @@ public class Planes extends Layout {
 			catch (Exception ex) {
 				ex.printStackTrace();
 			}
+		}
+		
+		@Override
+		public void onSave() {
+			Database.update("UPDATE pesawat SET pesawatdesc = ? WHERE pesawatcode = ? ", 
+				statement -> {
+				try {
+					statement.setString(1, descField.getText());
+					Database.setNumber(statement, 2, Types.INTEGER, selected.toString());
+				} 
+				catch (NumberFormatException | SQLException e) {
+					e.printStackTrace();
+				}
+			});
+			System.out.println("Record Changed");
 		}
 	}
 }

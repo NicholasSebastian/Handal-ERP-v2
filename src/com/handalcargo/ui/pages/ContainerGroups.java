@@ -3,6 +3,7 @@ package com.handalcargo.ui.pages;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -137,7 +138,7 @@ public class ContainerGroups extends Layout {
 			Database.update("INSERT INTO kelcontainer VALUES (?, ?, ?)", 
 			statement -> {
 			try {
-				statement.setInt(1, Integer.parseInt(codeField.getText()));
+				Database.setNumber(statement, 1, Types.INTEGER, codeField.getText());
 				statement.setString(2, descField.getText());
 				statement.setString(3, sizeField.getText());				
 			} 
@@ -177,7 +178,7 @@ public class ContainerGroups extends Layout {
 				try {
 					statement.setString(1, descField.getText());
 					statement.setString(2, sizeField.getText());
-					statement.setInt(3, Integer.valueOf(selected.toString()));
+					Database.setNumber(statement, 3, Types.INTEGER, selected.toString());
 				} 
 				catch (NumberFormatException | SQLException e) {
 					e.printStackTrace();
