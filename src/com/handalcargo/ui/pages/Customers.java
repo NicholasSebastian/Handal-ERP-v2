@@ -411,10 +411,10 @@ public class Customers extends Layout {
 					statement.setString(2, companyField.getText());
 					statement.setString(3, address1Field.getText());
 					statement.setString(4, city1Field.getText());
-					statement.setInt(5, Integer.valueOf(postalcode1Field.getText()));
+					Database.setNumber(statement, 5, Types.INTEGER, postalcode1Field.getText());
 					statement.setString(6, address2Field.getText());
 					statement.setString(7, city2Field.getText());
-					statement.setInt(8, Integer.valueOf(postalcode2Field.getText()));
+					Database.setNumber(statement, 8, Types.INTEGER, postalcode2Field.getText());
 					statement.setString(9, officephone1Field.getText());
 					statement.setString(10, officephone2Field.getText());
 					statement.setString(11, mobilephone1Field.getText());
@@ -429,7 +429,7 @@ public class Customers extends Layout {
 					statement.setString(20, othersField.getText());
 					statement.setDate(21, dateaddedField.getDate());
 					statement.setBoolean(22, statusField.isSelected());
-					statement.setInt(23, Integer.valueOf(selected.toString()));
+					Database.setNumber(statement, 23, Types.INTEGER, selected.toString());
 				} 
 				catch (NumberFormatException | SQLException e) {
 					e.printStackTrace();
