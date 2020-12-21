@@ -2,6 +2,7 @@ package com.handalcargo.ui.pages;
 
 import java.awt.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -18,8 +19,6 @@ import com.handalcargo.ui.pages.AirCargo.Form;
 import com.handalcargo.ui.pages.AirCargo.ModifyForm;
 
 public class Routes extends Layout {
-	
-	private ModifyForm modifyform;
 
 	public Routes() {
 		super ("Routes");
@@ -34,7 +33,15 @@ public class Routes extends Layout {
 	
 	@Override
 	protected void onDelete(Object selected) {
-		
+		Database.update("DELETE FROM rute WHERE rutecode = ?", statement -> {
+			try {
+				statement.setString(1, selected.toString());
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		System.out.println("Record Deleted");
 	}
 	
 	@Override
@@ -44,7 +51,7 @@ public class Routes extends Layout {
 		ArrayList<String[]> data = new ArrayList<>();
 		
 		try {
-			String query = "SELECT `rutecode`, `rutedesc` FROM rute";
+			String query = "SELECT `rutecode`, `rutedesc` FROM rute ORDER BY rutecode ASC";
 			if (filter != null && filter.length() > 0) 
 				query += String.format(" WHERE `rutecode` LIKE '%%%s%%'", filter);
 			
@@ -124,12 +131,28 @@ public class Routes extends Layout {
 		}
 		
 		public void onSave() {
-			System.out.println("from add form: " + ruteField.getText());
+			Database.update("INSERT INTO rute VALUES (?, ?)", 
+			statement -> {
+			try {
+				statement.setInt(1, Integer.parseInt(ruteField.getText()));
+				statement.setString(2, descField.getText());				
+			} 
+			catch (NumberFormatException | SQLException e) {
+				e.printStackTrace();
+			}
+		});
+			System.out.println("Record Added");
 		}
 	}
 
 	class ModifyForm extends Form {
+		
+		private Object selected;
+		
 		public void setForm (Object selected) {
+			this.selected = selected;
+			ruteField.setEditable(false);
+			
 			ResultSet results = Database.query(String.format("SELECT * FROM rute WHERE `rutecode`='%s'", selected));
 			try {
 				while (results.next()) {	// TODO
@@ -140,6 +163,21 @@ public class Routes extends Layout {
 			catch (Exception ex) {
 				ex.printStackTrace();
 			}
+		}
+		
+		@Override
+		public void onSave() {
+			Database.update("UPDATE rute SET rutedesc = ? WHERE rutecode = ? ", 
+				statement -> {
+				try {
+					statement.setString(1, descField.getText());
+					statement.setInt(2, Integer.valueOf(selected.toString()));
+				} 
+				catch (NumberFormatException | SQLException e) {
+					e.printStackTrace();
+				}
+			});
+			System.out.println("Record Changed");
 		}
 	}
 }

@@ -2,6 +2,7 @@ package com.handalcargo.ui.pages;
 
 import java.awt.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -19,8 +20,6 @@ import com.handalcargo.ui.pages.AirCargo.ModifyForm;
 
 public class Handlers extends Layout {
 	
-	private ModifyForm modifyform;
-	
 	public Handlers() {
 		super ("Handlers");
 		
@@ -34,7 +33,15 @@ public class Handlers extends Layout {
 	
 	@Override
 	protected void onDelete(Object selected) {
-		
+		Database.update("DELETE FROM pengurus WHERE penguruscode = ?", statement -> {
+			try {
+				statement.setString(1, selected.toString());
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		System.out.println("Record Deleted");
 	}
 	
 	@Override
@@ -124,12 +131,28 @@ public class Handlers extends Layout {
 		}
 		
 		public void onSave() {
-			System.out.println("from add form: " + codeField.getText());
+			Database.update("INSERT INTO pengurus VALUES (?, ?)", 
+			statement -> {
+			try {
+				statement.setInt(1, Integer.parseInt(codeField.getText()));
+				statement.setString(2, nameField.getText());				
+			} 
+			catch (NumberFormatException | SQLException e) {
+				e.printStackTrace();
+			}
+		});
+			System.out.println("Record Added");
 		}
 	}
 	
 	class ModifyForm extends Form {
+		
+		private Object selected;
+		
 		public void setForm (Object selected) {
+			this.selected = selected;
+			codeField.setEditable(false);
+			
 			ResultSet results = Database.query(String.format("SELECT * FROM pengurus WHERE `penguruscode`='%s'", selected));
 			try {
 				while (results.next()) {	// TODO
@@ -140,6 +163,21 @@ public class Handlers extends Layout {
 			catch (Exception ex) {
 				ex.printStackTrace();
 			}
+		}
+		
+		@Override
+		public void onSave() {
+			Database.update("UPDATE pengurus SET pengurusname = ? WHERE penguruscode = ? ", 
+				statement -> {
+				try {
+					statement.setString(1, nameField.getText());
+					statement.setInt(2, Integer.valueOf(selected.toString()));
+				} 
+				catch (NumberFormatException | SQLException e) {
+					e.printStackTrace();
+				}
+			});
+			System.out.println("Record Changed");
 		}
 	}
 }

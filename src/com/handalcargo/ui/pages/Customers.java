@@ -40,6 +40,7 @@ public class Customers extends Layout {
 				e.printStackTrace();
 			}
 		});
+		System.out.println("Record Deleted");
 	}
 	
 	@Override

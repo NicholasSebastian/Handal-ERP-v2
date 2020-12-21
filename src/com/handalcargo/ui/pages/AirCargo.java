@@ -13,8 +13,6 @@ import com.handalcargo.ui.pages.Customers.Form;
 import com.handalcargo.ui.pages.Customers.ModifyForm;
 
 public class AirCargo extends Layout {
-	
-	private ModifyForm modifyForm;
 
 	public AirCargo() {
 		super("Air Cargo");

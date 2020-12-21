@@ -2,6 +2,7 @@ package com.handalcargo.ui.pages;
 
 import java.awt.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -18,8 +19,6 @@ import com.handalcargo.ui.pages.Customers.Form;
 import com.handalcargo.ui.pages.Customers.ModifyForm;
 
 public class ContainerGroups extends Layout {
-	
-	private ModifyForm modifyForm;
 
 	public ContainerGroups() {
 		super("Container Groups");
@@ -34,7 +33,15 @@ public class ContainerGroups extends Layout {
 	
 	@Override
 	protected void onDelete(Object selected) {
-		
+		Database.update("DELETE FROM kelcontainer WHERE containercode = ?", statement -> {
+			try {
+				statement.setString(1, selected.toString());
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		System.out.println("Record Deleted");
 	}
 	
 	@Override
@@ -130,13 +137,29 @@ public class ContainerGroups extends Layout {
 		}
 		
 		public void onSave() {
-			System.out.println("from add form: " + codeField.getText());
+			Database.update("INSERT INTO kelcontainer VALUES (?, ?, ?)", 
+			statement -> {
+			try {
+				statement.setInt(1, Integer.parseInt(codeField.getText()));
+				statement.setString(2, descField.getText());
+				statement.setString(3, sizeField.getText());				
+			} 
+			catch (NumberFormatException | SQLException e) {
+				e.printStackTrace();
+			}
+		});
+			System.out.println("Record Added");
 		}
 	}
 	
 	class ModifyForm extends Form {
 		
+		private Object selected;
+		
 		public void setForm(Object selected) {
+			this.selected = selected;
+			codeField.setEditable(false);
+			
 			ResultSet results = Database.query(String.format("SELECT * FROM kelcontainer WHERE `containercode`='%s'", selected));
 			try {
 				while (results.next()) {
@@ -152,7 +175,18 @@ public class ContainerGroups extends Layout {
 		
 		@Override
 		public void onSave() {
-			System.out.println("from modify form: " + codeField.getText());
+			Database.update("UPDATE kelcontainer SET containerdesc = ?, size = ? WHERE containercode = ? ", 
+				statement -> {
+				try {
+					statement.setString(1, descField.getText());
+					statement.setString(2, sizeField.getText());
+					statement.setInt(3, Integer.valueOf(selected.toString()));
+				} 
+				catch (NumberFormatException | SQLException e) {
+					e.printStackTrace();
+				}
+			});
+			System.out.println("Record Changed");
 		}
 	}
 }
