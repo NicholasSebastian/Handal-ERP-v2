@@ -12,11 +12,8 @@ import javax.swing.table.TableModel;
 import com.handalcargo.core.Database;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
-import com.handalcargo.ui.base.Updateable;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.FormField;
-import com.handalcargo.ui.pages.Customers.Form;
-import com.handalcargo.ui.pages.Customers.ModifyForm;
 
 public class ContainerGroups extends Layout {
 

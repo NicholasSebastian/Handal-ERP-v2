@@ -85,4 +85,30 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	
+	// Utility function for setting nullable numeric types.
+	public static void setNumber(PreparedStatement statement, int parameterIndex, int type, String value) {
+		try {
+			if (value != null && !value.isEmpty()) {
+				switch (type) {
+				case Types.INTEGER:
+					statement.setInt(parameterIndex, Integer.parseInt(value));
+					break;
+				case Types.FLOAT:
+					statement.setFloat(parameterIndex, Float.parseFloat(value));
+					break;
+				case Types.DOUBLE:
+					statement.setDouble(parameterIndex, Double.parseDouble(value));
+					break;
+				default:
+					throw new SQLException();
+				}
+			}
+			else 
+				statement.setNull(parameterIndex, type);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

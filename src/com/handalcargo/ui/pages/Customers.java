@@ -3,6 +3,7 @@ package com.handalcargo.ui.pages;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -329,15 +330,15 @@ public class Customers extends Layout {
 			Database.update("INSERT INTO customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
 			statement -> {
 			try {
-				statement.setInt(1, Integer.parseInt(codeField.getText()));
+				Database.setNumber(statement, 1, Types.INTEGER, codeField.getText());
 				statement.setString(2, nameField.getText());
 				statement.setString(3, companyField.getText());
 				statement.setString(4, address1Field.getText());
 				statement.setString(5, city1Field.getText());
-				statement.setInt(6, Integer.valueOf(postalcode1Field.getText()));
+				Database.setNumber(statement, 6, Types.INTEGER, postalcode1Field.getText());
 				statement.setString(7, address2Field.getText());
 				statement.setString(8, city2Field.getText());
-				statement.setInt(9, Integer.valueOf(postalcode2Field.getText()));
+				Database.setNumber(statement, 9, Types.INTEGER, postalcode2Field.getText());
 				statement.setString(10, officephone1Field.getText());
 				statement.setString(11, officephone2Field.getText());
 				statement.setString(12, mobilephone1Field.getText());
