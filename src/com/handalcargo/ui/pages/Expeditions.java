@@ -11,15 +11,10 @@ import javax.swing.table.TableModel;
 import com.handalcargo.core.Database;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
-import com.handalcargo.ui.base.Updateable;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.FormField;
-import com.handalcargo.ui.pages.AirCargo.Form;
-import com.handalcargo.ui.pages.AirCargo.ModifyForm;
 
 public class Expeditions extends Layout {
-
-	private ModifyForm modifyform;
 	
 	public Expeditions() {
 		super ("Expeditions");

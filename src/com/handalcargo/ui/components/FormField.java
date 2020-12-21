@@ -1,9 +1,6 @@
 package com.handalcargo.ui.components;
 
 import java.awt.Insets;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.JTextField;
 import com.handalcargo.ui.Styles;
 

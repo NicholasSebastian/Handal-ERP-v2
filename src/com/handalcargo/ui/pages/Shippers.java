@@ -3,23 +3,16 @@ package com.handalcargo.ui.pages;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import com.handalcargo.core.Database;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
-import com.handalcargo.ui.base.Updateable;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.FormField;
-import com.handalcargo.ui.pages.AirCargo.Form;
-import com.handalcargo.ui.pages.AirCargo.ModifyForm;
 
 public class Shippers extends Layout {
-	
-	private ModifyForm modifyform;
 
 	public Shippers() {
 		super("Shippers");

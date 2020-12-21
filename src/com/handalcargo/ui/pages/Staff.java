@@ -14,19 +14,14 @@ import javax.swing.table.TableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.handalcargo.core.Database;
-import com.handalcargo.core.Encryption;
 import com.handalcargo.ui.Styles;
 import com.handalcargo.ui.base.Layout;
 import com.handalcargo.ui.components.SliderButton;
-import com.handalcargo.ui.pages.AirCargo.Form;
-import com.handalcargo.ui.pages.AirCargo.ModifyForm;
 import com.handalcargo.ui.components.Button;
 import com.handalcargo.ui.components.DatePicker;
 import com.handalcargo.ui.components.FormField;
 
 public class Staff extends Layout {
-
-	private ModifyForm modifyform;
 	
 	public Staff() {
 		super("Staff");

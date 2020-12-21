@@ -9,12 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import com.handalcargo.ui.base.Layout;
-import com.handalcargo.ui.pages.Customers.Form;
-import com.handalcargo.ui.pages.Customers.ModifyForm;
 
 public class AirCargo extends Layout {
-	
-	private ModifyForm modifyForm;
 
 	public AirCargo() {
 		super("Air Cargo");
